@@ -1,4 +1,4 @@
-# TypeGraphQL-Prisma-Types-Generator
+# Prisma TypeGraphQL Types Generator
 
 ![Banner]()
 
