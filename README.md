@@ -1,5 +1,7 @@
 # TypeGraphQL-Prisma-Types-Generator
 
+![Banner]()
+
 ## Prisma
 
 > [Prisma](https://www.prisma.io/) is Database ORM Library for Node.js, Typescript.
@@ -12,7 +14,9 @@ However, there are limitations to prisma solution, if you're building GraphQL AP
 So I created a Prisma generator to help us with generating all of the TypegraphQL models and enums by introspecting the type definitions in `prisma.schema` file and do all of the work for you, so you don't have to constantly go back and forth between your TypegraphQL class types and `prisma.schema` file when you decide to make changes.
 
 ## How this differs from [`typegraphql-prisma`](https://github.com/MichalLytek/typegraphql-prisma) from the legend himself @MichalLytek?
+
 ### Features
+
 - Doesn't generate CRUD resolvers as [`typegraphql-prisma`](https://github.com/MichalLytek/typegraphql-prisma) does.
 - Generates TypegraphQL class types and enums from your `prisma.schema` file.
 - The Generated output is very human readable and doesn't look like generated code what so ever.
@@ -26,6 +30,7 @@ So I created a Prisma generator to help us with generating all of the TypegraphQ
 ## Usage
 
 Define Generator in `schema.prisma` and **that's it**
+
 ```prisma
 generator PrismaTypeGraphQLTypesGenerator {
   provider     = "npx prisma-typegraphql-types-generator"
@@ -38,6 +43,7 @@ generator PrismaTypeGraphQLTypesGenerator {
 If this is the `prisma.schema` 👇
 
 > ℹ you can set the `modelsOutput` and the `enumsOutput` paths to be wherever you want and the class models files will figure out their way to get to the enums path **no problem**.
+
 ```prisma
 generator client {
   provider = "prisma-client-js"
@@ -93,6 +99,7 @@ model Post {
 ```
 
 The generated output will be like this 😎
+
 ```typescript
 // src/models/User.ts
 import { Field, ID, ObjectType } from 'type-graphql'
@@ -193,7 +200,7 @@ export enum Language {
   Rust = 'Rust',
   Python = 'Python',
   Java = 'Java',
-  Swift = 'Swift'
+  Swift = 'Swift',
 }
 registerEnumType(Language, {
   name: 'Language',
@@ -201,18 +208,21 @@ registerEnumType(Language, {
 ```
 
 ## What's the `// @hide` and `// @private` do in `prisma.schema` file?
+
 `// @hide` before a field in your `prisma.schema` file means you're telling the generator that this field is just specific to the database and won't be queryable by graphql clients, so it skips adding it to the class type.
 
 `// @private` before a field in your `prisma.schema` file means you're telling the generator that this field can be queryable but it depends on who's asking, so an email as an example won't be exposed to anyone just authenticated user can show his email, so It marks that field as `nullable: true` to assure that you won't get the email of the user if you're not that user himself.
 
 ## How to edit the Generated Code without being overwritten by the generator?
+
 You've probably noticed the `// skip overwrite 👇` comment at the very end of any generated class model and this's a part of what I like to call **Safe Areas** where you can write code without being overwritten by the generator.
 
 ### So there's three **Safe Areas**:
 
 1- above the class where you can add your own logic here and import other files/libraries
+
 > ℹ when you try messing up by removing imports that a class needs, the generator will correct you and add it again
- 
+
 > ⚠ a file can only has a single class otherwise you're gonna confuse the generator
 
 ```diff
@@ -220,15 +230,16 @@ You've probably noticed the `// skip overwrite 👇` comment at the very end of 
 import { Field, ID, ObjectType } from 'type-graphql'
 import { Post } from './Post'
 + import { addTwoNumbers } from '../utils/sillyStuff'
-+ 
++
 + console.log(addTwoNumbers(1, 4))
-+ 
++
 @ObjectType()
 export class User {
   @Field((_type) => ID)
   id: string
   ...
 ```
+
 2- Field Config object
 
 ```diff
@@ -259,6 +270,7 @@ export class User {
 ```
 
 ## Known Issues
+
 1- Can't use the object shorthand syntax in the field config object.
 
 Won't work 👇
