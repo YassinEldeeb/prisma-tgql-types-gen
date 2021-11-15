@@ -24,10 +24,10 @@
     "prisma": "^3.4.2",
     "typescript": "^4.4.4"
   },
-  "homepage": "https://github.com/YassinEldeeb/TypeGraphQL-Prisma-Types-Generator",
+  "homepage": "https://github.com/YassinEldeeb/Prisma-TypeGraphQL-Types-Generator",
   "repository": {
     "type": "git",
-    "url": "git://github.com/YassinEldeeb/TypeGraphQL-Prisma-Types-Generator.git"
+    "url": "git://github.com/YassinEldeeb/Prisma-TypeGraphQL-Types-Generator.git"
   },
   "author": {
     "name": "Yassin Eldeeb",
