@@ -1,7 +1,7 @@
 {
   "name": "prisma-typegraphql-types-generator",
   "description": "Prisma generator for generating TypeGraphQL class types and enums, It works like a copilot where the generated output is very human readable and can be edited",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "main": "dist/generator.js",
   "license": "MIT",
   "bin": {
