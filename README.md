@@ -257,3 +257,20 @@ export class User {
 + sayHello: string
 }
 ```
+
+## Known Issues
+1- Can't use the object shorthand syntax in the field config object.
+
+Won't work 👇
+
+```diff
+...
+import { complexity } from '../shared/complexity'
+
+@ObjectType()
+export class User {
++ @Field((_type) => ID, { complexity })
+  id: string
+  ...
+}
+```
