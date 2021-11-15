@@ -76,14 +76,14 @@ generatorHandler({
         allFields.map((e) => ({
           field: e.field.replace('?', ''),
           type: e.type,
-        }))
+        })),
       )
 
       const formattedFields = model.fields.map((field, index) => {
         const { isHide, isPrivate } = HideOrPrivate(
           extractedData,
           field.name,
-          model.name
+          model.name,
         )
 
         if (isHide) return { hide: true, type: field.type }
@@ -93,7 +93,10 @@ generatorHandler({
         }`
         const decoratorType = () => {
           // Special Cases
-          const type = (type: string) => `(_type) => ${type}`
+          const type = (type: string) =>
+            `(${
+              options.generator.config.removeTypeInFieldDecorator ? '' : '_type'
+            }) => ${type}`
           const getEquavilentType = () => {
             if (field.isId) {
               return 'ID'
@@ -131,7 +134,7 @@ generatorHandler({
           let object: any = {}
 
           const editedOptions = decoratorObjects?.find(
-            (e) => e.field === fieldName.replace('?', '')
+            (e) => e.field === fieldName.replace('?', ''),
           )
 
           if (editedOptions) {
@@ -139,7 +142,7 @@ generatorHandler({
             Object.keys(editedOptions.decorator).forEach(
               (key) =>
                 editedOptions.decorator[key] === undefined &&
-                delete editedOptions.decorator[key]
+                delete editedOptions.decorator[key],
             )
           }
 
@@ -160,7 +163,7 @@ generatorHandler({
 
           // Remove undefined keys
           Object.keys(object).forEach(
-            (key) => object[key] === undefined && delete object[key]
+            (key) => object[key] === undefined && delete object[key],
           )
 
           if (Object.keys(object).length === 0) {
@@ -189,7 +192,7 @@ generatorHandler({
 
       const dependsOn = modulesThatIsUsed(
         options.dmmf.datamodel.models,
-        model.name
+        model.name,
       )
 
       let imports: string[] = []
@@ -208,14 +211,14 @@ generatorHandler({
                 const relativePathToEnums = replaceAll(
                   path.relative(
                     path.join(process.cwd(), modelsWriteLocation),
-                    path.join(process.cwd(), enumWriteLocation)
+                    path.join(process.cwd(), enumWriteLocation),
                   ),
                   '\\',
-                  '/'
+                  '/',
                 )
                 return IMPORT_TEMPLATE(
                   `{ ${name} }`,
-                  `${relativePathToEnums}/${name}`
+                  `${relativePathToEnums}/${name}`,
                 )
               }
             } else {
@@ -268,7 +271,7 @@ generatorHandler({
       ).split('\n')
 
       const ObjectTypeIndex = codeSplitted.findIndex((e) =>
-        e.includes('@ObjectType')
+        e.includes('@ObjectType'),
       )
 
       if (codeSplitted[ObjectTypeIndex - 1].length !== 0) {
@@ -280,11 +283,11 @@ generatorHandler({
       const classes = MODEL_TEMPLATE(
         model.name,
         fields.join('\n'),
-        classChanges
+        classChanges,
       )
       const generatedModel = INDEX_TEMPLATE(
         classes,
-        mergedImports.join('\n') + otherCodeThatChanged
+        mergedImports.join('\n') + otherCodeThatChanged,
       )
 
       // Make Folders that doesn't exist
@@ -301,7 +304,7 @@ generatorHandler({
 
       const generatedEnum = ENUM_TEMPLATE(
         prismaEnum.name,
-        prismaEnum.values.map((e) => `  ${e.name} = '${e.name}'`).join(',\n')
+        prismaEnum.values.map((e) => `  ${e.name} = '${e.name}'`).join(',\n'),
       )
 
       // Make Folders that doesn't exist
