@@ -247,10 +247,8 @@ export class User {
 @ObjectType()
 export class User {
   ...
-  @Field({ nullable: true })
-  username?: string
-
-+ @Field((_type) => ID, {
+- @Field({ nullable: true })
++ @Field({
 +   nullable: true
 +   description: 'This field is looking kinda sussy',
 +   simple: true,
