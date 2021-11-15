@@ -271,6 +271,9 @@ export class User {
 }
 ```
 
+## Real World Example
+[Blogs/Podcasts-Platform](https://github.com/YassinEldeeb/Blogs-Podcasts-Platform/tree/master/packages/server)
+
 ## Known Issues
 
 1- Can't use the object shorthand syntax in the field config object.
