@@ -9,18 +9,18 @@
 Prisma basically generate each model type definition defined in [`schema.prisma`](https://www.prisma.io/docs/concepts/components/prisma-schema).
 Therefore, it's different from other ORMs so It does not require any additional entry classes or repository layers to model your data.
 
-However, there are limitations to prisma solution, if you're building GraphQL APIs with TypegraphQL and Prisma you've to write the same types as classes and enums in TypeGraphQL and maintain both of Prisma definitions and TypegraphQL classes and enums to be synced as you iterate over them and that's not very cool in my opinion.
+However, there are limitations to prisma solution, if you're building GraphQL APIs with TypegraphQL and Prisma you've to write the same types as classes and enums in TypeGraphQL and maintain both of Prisma definitions and TypegraphQL classes and enums to be synced as you edit them and that's not very cool in my opinion.
 
 So I created a Prisma generator to help us with generating all of the TypegraphQL models and enums by introspecting the type definitions in `prisma.schema` file and do all of the work for you, so you don't have to constantly go back and forth between your TypegraphQL class types and `prisma.schema` file when you decide to make changes.
 
-## How this differs from [`typegraphql-prisma`](https://github.com/MichalLytek/typegraphql-prisma) from the legend himself @MichalLytek?
+## How this differs from [`typegraphql-prisma`](https://github.com/MichalLytek/typegraphql-prisma) by the legend himself @MichalLytek?
 
 ### Features
 
 - Doesn't generate CRUD resolvers as [`typegraphql-prisma`](https://github.com/MichalLytek/typegraphql-prisma) does.
 - Generates TypegraphQL class types and enums from your `prisma.schema` file.
 - The Generated output is very human readable and doesn't look like generated code what so ever.
-- The Generated output can be edited so you can iterate over the generated output and the next generation won't overwrite your changes but iterate over it.
+- The Generated output can be edited so you can edit the generated output and the next generation won't overwrite your changes but sustain them.
 - I like to think of it as the pilot and you're the copilot cause you can change whatever you want in the generated files and when you mess up the generator will correct you.
 - make the fields hide(only specific to the database) or private(require authentication).
 - specify the locations to tell where do you want to output the models and the enums.
@@ -35,7 +35,7 @@ Define Generator in `schema.prisma` and **that's it**
 generator PrismaTypeGraphQLTypesGenerator {
   provider     = "npx prisma-typegraphql-types-generator"
   modelsOutput = "./src/models" // Optional defaults to "./src/generated/models"
-  enumsOutput  = "./src/types" // Optional defaults to "./src/generated/enums"
+  enumsOutput  = "./src/types/enums" // Optional defaults to "./src/generated/enums"
   useYarn      = true // Optional if you want `graphql-scalars` installation to be done via yarn defaults to "npm"
 }
 ```
@@ -209,15 +209,15 @@ registerEnumType(Language, {
 
 ## What's the `// @hide` and `// @private` do in `prisma.schema` file?
 
-`// @hide` before a field in your `prisma.schema` file means you're telling the generator that this field is just specific to the database and won't be queryable by graphql clients, so it skips adding it to the class type.
+`// @hide` before a field in your `prisma.schema` file means you're telling the generator that this field is just specific for backend stuff and won't be queryable by graphql clients, so it skips adding it to the class type.
 
 `// @private` before a field in your `prisma.schema` file means you're telling the generator that this field can be queryable but it depends on who's asking, so an email as an example won't be exposed to anyone just authenticated user can show his email, so It marks that field as `nullable: true` to assure that you won't get the email of the user if you're not that user himself.
 
 ## How to edit the Generated Code without being overwritten by the generator?
 
-You've probably noticed the `// skip overwrite 👇` comment at the very end of any generated class model and this's a part of what I like to call **Safe Areas** where you can write code without being overwritten by the generator.
+You've probably noticed the `// skip overwrite 👇` comment at the very bottom of any generated class model and this's a part of what I like to call **Safe Areas** where you can write code without being overwritten by the generator.
 
-### So there's three **Safe Areas**:
+### So there're 3 **Safe Areas**:
 
 1- above the class where you can add your own logic here and import other files/libraries
 
@@ -246,13 +246,15 @@ export class User {
 // src/models/User.ts
 @ObjectType()
 export class User {
--  @Field(_type) => ID)
-+  @Field((_type) => ID, {
-+    description: 'This field is looking kinda sussy',
-+    simple: true,
-+    complexity: 5,
-+  })
-+  id: string
+  ...
+- @Field({ nullable: true })
++ @Field({
++   nullable: true
++   description: 'This field is looking kinda sussy',
++   simple: true,
++   complexity: 5,
++ })
+  username?: string
   ...
 ```
 
@@ -268,6 +270,9 @@ export class User {
 + sayHello: string
 }
 ```
+
+## Real World Example
+[Blogs/Podcasts-Platform](https://github.com/YassinEldeeb/Blogs-Podcasts-Platform/tree/master/packages/server)
 
 ## Known Issues
 
