@@ -246,13 +246,17 @@ export class User {
 // src/models/User.ts
 @ObjectType()
 export class User {
--  @Field(_type) => ID)
-+  @Field((_type) => ID, {
-+    description: 'This field is looking kinda sussy',
-+    simple: true,
-+    complexity: 5,
-+  })
-+  id: string
+  ...
+  @Field({ nullable: true })
+  username?: string
+
++ @Field((_type) => ID, {
++   nullable: true
++   description: 'This field is looking kinda sussy',
++   simple: true,
++   complexity: 5,
++ })
++ username?: string
   ...
 ```
 
