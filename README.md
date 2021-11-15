@@ -215,7 +215,7 @@ registerEnumType(Language, {
 
 ## How to edit the Generated Code without being overwritten by the generator?
 
-You've probably noticed the `// skip overwrite 👇` comment at the very end of any generated class model and this's a part of what I like to call **Safe Areas** where you can write code without being overwritten by the generator.
+You've probably noticed the `// skip overwrite 👇` comment at the very bottom of any generated class model and this's a part of what I like to call **Safe Areas** where you can write code without being overwritten by the generator.
 
 ### So there's three **Safe Areas**:
 
