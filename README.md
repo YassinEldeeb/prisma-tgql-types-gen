@@ -13,7 +13,7 @@ However, there are limitations to prisma solution, if you're building GraphQL AP
 
 So I created a Prisma generator to help us with generating all of the TypegraphQL models and enums by introspecting the type definitions in `prisma.schema` file and do all of the work for you, so you don't have to constantly go back and forth between your TypegraphQL class types and `prisma.schema` file when you decide to make changes.
 
-## How this differs from [`typegraphql-prisma`](https://github.com/MichalLytek/typegraphql-prisma) from the legend himself @MichalLytek?
+## How this differs from [`typegraphql-prisma`](https://github.com/MichalLytek/typegraphql-prisma) by the legend himself @MichalLytek?
 
 ### Features
 
