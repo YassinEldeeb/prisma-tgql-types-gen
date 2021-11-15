@@ -209,7 +209,7 @@ registerEnumType(Language, {
 
 ## What's the `// @hide` and `// @private` do in `prisma.schema` file?
 
-`// @hide` before a field in your `prisma.schema` file means you're telling the generator that this field is just specific to the database and won't be queryable by graphql clients, so it skips adding it to the class type.
+`// @hide` before a field in your `prisma.schema` file means you're telling the generator that this field is just specific for backend stuff and won't be queryable by graphql clients, so it skips adding it to the class type.
 
 `// @private` before a field in your `prisma.schema` file means you're telling the generator that this field can be queryable but it depends on who's asking, so an email as an example won't be exposed to anyone just authenticated user can show his email, so It marks that field as `nullable: true` to assure that you won't get the email of the user if you're not that user himself.
 
