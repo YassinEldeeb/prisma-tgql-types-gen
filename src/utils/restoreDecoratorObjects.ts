@@ -2,7 +2,7 @@ import fs from 'fs'
 
 export const restoreDecoratorObjects = (
   writeLocation: string,
-  fields: { field: string; type: string }[]
+  fields: { field: string; type: string }[],
 ) => {
   const fileExists = fs.existsSync(writeLocation)
   if (!fileExists) return
@@ -68,9 +68,9 @@ export const restoreDecoratorObjects = (
           Object.keys(input).reduce(
             (prev, next) =>
               Object.assign(prev, {
-                [next]: input[next]?.replace(/\s+/g, ''),
+                [next]: input[next]?.trim(),
               }),
-            {}
+            {},
           )
 
         const trimmedDecorator = trimAllValues(decorator)
