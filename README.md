@@ -1,6 +1,6 @@
 # Prisma TypeGraphQL Types Generator
 
-![Banner]()
+![Banner](https://github.com/YassinEldeeb/Prisma-TypeGraphQL-Types-Generator/blob/main/images/bannerImage.png)
 
 ## Prisma
 
