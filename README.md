@@ -27,6 +27,6 @@ So I created a Prisma generator to help us with generating all of the TypegraphQ
 1. **Install**
 ```prisma
 generator PrismaTypeGraphQLTypesGenerator {
-    provider = "prisma-class-generator"
+    provider = "npx prisma-typegraphql-types-generator"
 }
 ```
