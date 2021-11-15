@@ -232,6 +232,7 @@ export class User {
 2- Field Config object
 
 ```diff
+// src/models/User.ts
 @ObjectType()
 export class User {
 -  @Field(_type) => ID)
@@ -247,6 +248,7 @@ export class User {
 3- below the `// skip overwrite 👇` comment
 
 ```diff
+// src/models/User.ts
 @ObjectType()
 export class User {
   ...
