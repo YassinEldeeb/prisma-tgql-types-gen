@@ -11,15 +11,16 @@ However, there are limitations to prisma solution, if you're building GraphQL AP
 
 So I created a Prisma generator to help us with generating all of the TypegraphQL models and enums by introspecting the type definitions in `prisma.schema` file and do all of the work for you, so you don't have to constantly go back and forth between your TypegraphQL class types and `prisma.schema` file when you decide to make changes.
 
-# How this differs from [`typegraphql-prisma`](https://github.com/MichalLytek/typegraphql-prisma) from the legen himself @MichalLytek?
-## Features
+## How this differs from [`typegraphql-prisma`](https://github.com/MichalLytek/typegraphql-prisma) from the legend himself @MichalLytek?
+### Features
+- Doesn't generate CRUD resolvers as [`typegraphql-prisma`](https://github.com/MichalLytek/typegraphql-prisma) does.
 - Generates TypegraphQL class types and enums from your `prisma.schema` file.
-- The Generated output is very human readable and doesn't look as generated code what so ever.
+- The Generated output is very human readable and doesn't look like generated code what so ever.
 - The Generated output can be edited so you can iterate over the generated output and the next generation won't overwrite your changes but iterate over it.
-- so I like to think of it as the pilot and you're the copilot cause you can change whatever you want in the generated files and when you mess up the generator will correct you.
+- I like to think of it as the pilot and you're the copilot cause you can change whatever you want in the generated files and when you mess up the generator will correct you.
 - make the fields hide(only specific to the database) or private(require authentication).
 - specify the locations to tell where do you want to output the models and the enums.
-- only installs [`graphql-scalars`](https://github.com/Urigo/graphql-scalars) automatically if any custom scalar types were used in `prisma.schema` file.
+- only installs [`graphql-scalars`](https://github.com/Urigo/graphql-scalars) automatically if any custom scalar types were used in `prisma.schema` like Json or Bytes
 - option to use `yarn` for installing [`graphql-scalars`](https://github.com/Urigo/graphql-scalars) (default is npm).
 
 ## Usage
