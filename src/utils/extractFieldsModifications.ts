@@ -10,9 +10,9 @@ export const ExtractFieldsModifications = (dataModel: string) => {
   }[] = []
 
   dataModel.split('\n').forEach((line) => {
-    if (line.includes('@hide')) {
+    if (line.includes('@skip')) {
       return (hideField = true)
-    } else if (line.includes('@private')) {
+    } else if (line.includes('@nullable')) {
       return (privateField = true)
     }
 
