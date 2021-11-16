@@ -22,7 +22,7 @@ So I created a Prisma generator to help us with generating all of the TypegraphQ
 - The Generated output is very human readable and doesn't look like generated code what so ever.
 - The Generated output can be edited so you can edit the generated output and the next generation won't overwrite your changes but sustain them.
 - I like to think of it as the pilot and you're the copilot cause you can change whatever you want in the generated files and when you mess up the generator will correct you.
-- make the fields hide(only specific to the backend) or private(require authentication).
+- make the fields be skipped or nullable(require authentication).
 - specify the locations to tell where do you want to output the models and the enums.
 - only installs [`graphql-scalars`](https://github.com/Urigo/graphql-scalars) automatically if any custom scalar types were used in `prisma.schema` like Json or Bytes
 - option to use `yarn` for installing [`graphql-scalars`](https://github.com/Urigo/graphql-scalars) (default is npm).
