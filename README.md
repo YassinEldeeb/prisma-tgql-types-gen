@@ -22,7 +22,7 @@ So I created a Prisma generator to help us with generating all of the TypegraphQ
 - The Generated output is very human readable and doesn't look like generated code what so ever.
 - The Generated output can be edited so you can edit the generated output and the next generation won't overwrite your changes but sustain them.
 - I like to think of it as the pilot and you're the copilot cause you can change whatever you want in the generated files and when you mess up the generator will correct you.
-- make the fields hide(only specific to the database) or private(require authentication).
+- make the fields hide(only specific to the backend) or private(require authentication).
 - specify the locations to tell where do you want to output the models and the enums.
 - only installs [`graphql-scalars`](https://github.com/Urigo/graphql-scalars) automatically if any custom scalar types were used in `prisma.schema` like Json or Bytes
 - option to use `yarn` for installing [`graphql-scalars`](https://github.com/Urigo/graphql-scalars) (default is npm).
@@ -276,6 +276,8 @@ export class User {
 
 ## Known Issues
 
+Basically the only times you'll see the TypeGraphQL file introspecter fails is caused by the leaky implementation I did to grab the object from the field decorator.
+
 1- Can't use the object shorthand syntax in the field config object.
 
 Won't work 👇
@@ -287,6 +289,37 @@ import { complexity } from '../shared/complexity'
 @ObjectType()
 export class User {
 + @Field((_type) => ID, { complexity })
+  id: string
+  ...
+}
+```
+
+2- Using commas in any string in the field config object confuses the introspecter to make it think that this comma is the end of defining a certain field in this object, so currently the solution is to add the string to a variable outside of the class and use it bellow.
+
+Won't work 👇
+
+```diff
+...
+import { complexity } from '../shared/complexity'
+
+@ObjectType()
+export class User {
++ @Field((_type) => ID, { name: ",", complexity: 1 })
+  id: string
+  ...
+}
+```
+Will work 👇
+
+```diff
+...
+import { complexity } from '../shared/complexity'
+
+const IDFieldName = ","
+
+@ObjectType()
+export class User {
++ @Field((_type) => ID, { name: IDFieldName, complexity: 1 })
   id: string
   ...
 }
