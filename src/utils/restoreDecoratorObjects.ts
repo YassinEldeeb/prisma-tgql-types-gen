@@ -1,5 +1,6 @@
 import fs from 'fs'
 import { splitButIgnoreCommasInQuotes } from './splitButIgnoreCommasInQuotes'
+import { removeTheFirstChar } from './removeTheFirstChar'
 
 export const restoreDecoratorObjects = (
   writeLocation: string,
@@ -43,12 +44,12 @@ export const restoreDecoratorObjects = (
             condition = false
           }
         }
-        const decoratorObject = fieldDecorator
-          .reverse()
-          .join('')
-          .slice(0, -1)
-          .replace('}', '')
-          .replace('{', '')
+
+        const decoratorObject = removeTheFirstChar(
+          fieldDecorator.reverse().join('').slice(0, -1),
+          '{',
+        )
+          .replace(/\}$/, '')
           .split(/,+(?=[\w]+\:)/g)
 
         const cleanedStringObject = decoratorObject
@@ -60,7 +61,8 @@ export const restoreDecoratorObjects = (
 
         let decorator: any = {}
 
-        splitButIgnoreCommasInQuotes(cleanedStringObject)
+        cleanedStringObject
+          .split(',')
           .map((i) => {
             return i.split(':')
           })
