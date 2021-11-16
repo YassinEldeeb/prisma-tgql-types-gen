@@ -1,3 +1,5 @@
+import { splitButIgnoreCommasInQuotes } from './splitButIgnoreCommasInQuotes'
+
 export function objToString(obj: any) {
   let str = ''
   let index = 0
@@ -11,9 +13,9 @@ export function objToString(obj: any) {
   const FourSpaces = '    '
   const ThreeSpaces = '   '
 
-  const formatted = `{\n${FourSpaces}${str
-    .split(',')
-    .join(`,\n${ThreeSpaces}`)}\n${'  '}}`
+  const formatted = `{\n${FourSpaces}${splitButIgnoreCommasInQuotes(str).join(
+    `,\n${ThreeSpaces}`,
+  )}\n${'  '}}`
 
   if (formatted.length > 70) {
     return formatted

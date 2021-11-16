@@ -1,4 +1,5 @@
 import fs from 'fs'
+import { splitButIgnoreCommasInQuotes } from './splitButIgnoreCommasInQuotes'
 
 export const restoreDecoratorObjects = (
   writeLocation: string,
@@ -48,7 +49,7 @@ export const restoreDecoratorObjects = (
           .slice(0, -1)
           .replace('}', '')
           .replace('{', '')
-          .split(',')
+          .split(/,+(?=[\w]+\:)/g)
 
         const cleanedStringObject = decoratorObject
           .join(',')
@@ -59,10 +60,11 @@ export const restoreDecoratorObjects = (
 
         let decorator: any = {}
 
-        cleanedStringObject
-          .split(',')
-          .map((i) => i.split(':'))
-          .forEach((j) => (decorator[j[0].trim()] = j[1]))
+        splitButIgnoreCommasInQuotes(cleanedStringObject)
+          .map((i) => {
+            return i.split(':')
+          })
+          .forEach((j) => (decorator[j[0]?.trim()] = j[1]?.trim()))
 
         const trimAllValues = (input: any) =>
           Object.keys(input).reduce(
