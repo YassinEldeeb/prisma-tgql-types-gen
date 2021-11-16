@@ -52,7 +52,7 @@ generator client {
 generator PrismaTypeGraphQLTypesGenerator {
   provider     = "npx prisma-typegraphql-types-generator"
   modelsOutput = "./src/models"
-  enumsOutput  = "./src/types"
+  enumsOutput  = "./src/types/enums"
   useYarn      = true
 }
 
