@@ -64,14 +64,14 @@ datasource db {
 model User {
   id                            String                 @id @default(cuid())
   name                          String                 @db.VarChar(255)
-  // @private
+  // @nullable
   email                         String                 @unique
-  // @hide
+  // @skip
   password                      String?
   bio                           String?                @db.VarChar(160)
-  // @hide
+  // @skip
   tokenVersion                  Int                    @default(0)
-  // @hide
+  // @skip
   confirmed                     Boolean                @default(false)
   profilePic                    String?
   posts                         Post[]
@@ -87,7 +87,7 @@ model Post {
   body           String
   tags           String[]
   published      Boolean   @default(false)
-  // @hide
+  // @skip
   authorId       String
   author         User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   readingTimeTxt String
@@ -207,11 +207,11 @@ registerEnumType(Language, {
 })
 ```
 
-## What's the `// @hide` and `// @private` do in `prisma.schema` file?
+## What's the `// @skip` and `// @nullable` do in `prisma.schema` file?
 
-`// @hide` before a field in your `prisma.schema` file means you're telling the generator that this field is just specific for backend stuff and won't be queryable by graphql clients, so it skips adding it to the class type.
+`// @skip` before a field in your `prisma.schema` file means you're telling the generator that this field is just specific for backend stuff and won't be queryable by graphql clients, so it skips adding it to the class type.
 
-`// @private` before a field in your `prisma.schema` file means you're telling the generator that this field can be queryable but it depends on who's asking, so an email as an example won't be exposed to anyone just authenticated user can show his email, so It marks that field as `nullable: true` to assure that you won't get the email of the user if you're not that user himself.
+`// @nullable` before a field in your `prisma.schema` file means you're telling the generator that this field can be queryable but it depends on who's asking, so an email as an example won't be exposed to anyone just authenticated user can show his email, so It marks that field as `nullable: true` to assure that you won't get the email of the user if you're not that user himself.
 
 ## How to edit the Generated Code without being overwritten by the generator?
 
