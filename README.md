@@ -276,6 +276,8 @@ export class User {
 
 ## Known Issues
 
+Basically the only times you'll see the TypeGraphQL file introspecter fails is caused by the leaky implementation I did to grab the object from the field decorator.
+
 1- Can't use the object shorthand syntax in the field config object.
 
 Won't work 👇
@@ -287,6 +289,37 @@ import { complexity } from '../shared/complexity'
 @ObjectType()
 export class User {
 + @Field((_type) => ID, { complexity })
+  id: string
+  ...
+}
+```
+
+2- Using commas in any string in the field config object confuses the introspecter to make it think that this comma is the end of defining a certain field in this object, so currently the solution is to add the string to a variable outside of the class and use it bellow.
+
+Won't work 👇
+
+```diff
+...
+import { complexity } from '../shared/complexity'
+
+@ObjectType()
+export class User {
++ @Field((_type) => ID, { name: ",", complexity: 1 })
+  id: string
+  ...
+}
+```
+Will work 👇
+
+```diff
+...
+import { complexity } from '../shared/complexity'
+
+const IDFieldName = ","
+
+@ObjectType()
+export class User {
++ @Field((_type) => ID, { name: IDFieldName, complexity: 1 })
   id: string
   ...
 }
