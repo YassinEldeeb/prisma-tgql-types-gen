@@ -145,7 +145,7 @@ export class User {
 
 ```typescript
 // src/models/Post.ts
-import { Field, ID, ObjectType } from 'type-graphql'
+import { Field, ID, ObjectType, Float } from 'type-graphql'
 import { User } from './User'
 import { Language } from '../src/types/enums/Language'
 
@@ -172,7 +172,7 @@ export class Post {
   @Field()
   readingTimeTxt: string
 
-  @Field()
+  @Field((_type) => Float)
   readingTimeMin: number
 
   @Field({ nullable: true })
