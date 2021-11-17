@@ -1,10 +1,11 @@
 import fs from 'fs'
+import path from 'path'
 
 export const mkdir = (writeLocation: string, fileName: string) => {
   const folders = writeLocation
     .replace(fileName, '')
     .replace(process.cwd(), '')
-    .split('\\')
+    .split(path.sep)
     .filter((e) => e.length)
 
   folders.forEach((_, i) => {
