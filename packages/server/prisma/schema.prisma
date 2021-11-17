@@ -1,0 +1,147 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator PrismaTypeGraphQLTypesGenerator {
+  provider     = "yarn prisma-typegraphql-types-generator"
+  modelsOutput = "./src/models"
+  enumsOutput  = "./src/types"
+  useYarn      = true
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                            String                 @id @default(cuid())
+  name                          String                 @db.VarChar(255)
+  username                      String?                @unique
+  // @nullable
+  email                         String                 @unique
+  // @skip
+  password                      String?
+  bio                           String?                @db.VarChar(160)
+  // @skip
+  tokenVersion                  Int                    @default(0)
+  // @skip
+  confirmed                     Boolean                @default(false)
+  profilePic                    String?
+  posts                         Post[]
+  comments                      Comment[]
+  // @skip
+  hearts                        Heart[]
+  followers_count               Int                    @default(0)
+  following_count               Int                    @default(0)
+  followers                     Follower[]
+  following                     Follower[]             @relation("followerToUser")
+  notifications                 Notification[]
+  // @skip
+  notificationsFromUser         NotificationFromUser[]
+  // @skip
+  notificationsFromUserWhoFired NotificationFromUser[] @relation("whoFired")
+  githubId                      String?                @unique
+  lastTimelineVisit             DateTime?
+  createdAt                     DateTime               @default(now())
+  updatedAt                     DateTime               @updatedAt
+}
+
+model Follower {
+  id              String   @id @default(cuid())
+  // @skip
+  followed_userId String
+  // @skip
+  follower_userId String
+  followed_user   User     @relation(fields: [followed_userId], references: [id], onDelete: Cascade)
+  follower_user   User     @relation(fields: [follower_userId], references: [id], name: "followerToUser", onDelete: Cascade)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Post {
+  id             String    @id @default(cuid())
+  title          String
+  body           String
+  tags           String[]
+  published      Boolean   @default(false)
+  hearts         Heart[]
+  hearts_count   Int       @default(0)
+  comments_count Int       @default(0)
+  // @skip
+  authorId       String
+  author         User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments       Comment[]
+  readingTimeTxt String
+  readingTimeMin Float
+  coverImg       String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Notification {
+  id             String                 @id @default(cuid())
+  notifiedUser   User                   @relation(fields: [notifiedUserId], references: [id], onDelete: Cascade)
+  // @skip
+  notifiedUserId String
+  fromUsers      NotificationFromUser[]
+  seen           Boolean                @default(false)
+  message        String
+  type           NotificationType
+  url            String
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+}
+
+enum NotificationType {
+  newPosts
+  newComments
+  newFollowers
+  reply
+  heartOnPost
+  heartOnComment
+  heartOnReply
+}
+
+model NotificationFromUser {
+  id             String        @id @default(cuid())
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userWhoFired   User          @relation(fields: [userWhoFiredId], references: [id], onDelete: Cascade, name: "whoFired")
+  // @skip
+  notification   Notification? @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  userId         String
+  userWhoFiredId String
+  // @skip
+  notificationId String?
+}
+
+model Heart {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  // @skip
+  authorId  String
+  // @skip
+  postId    String?
+  // @skip
+  commentId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Comment {
+  id           String   @id @default(cuid())
+  text         String
+  author       User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  post         Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  // @skip
+  authorId     String
+  // @skip
+  postId       String
+  hearts       Heart[]
+  hearts_count Int      @default(0)
+  parentId     String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}

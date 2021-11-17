@@ -1,50 +1,6 @@
 {
-  "name": "prisma-typegraphql-types-generator",
-  "description": "Prisma generator for generating TypeGraphQL class types and enums, It works like a copilot where the generated output is very human readable and can be edited",
-  "version": "1.1.14",
-  "main": "dist/generator.js",
-  "license": "MIT",
-  "bin": {
-    "prisma-typegraphql-types-generator": "dist/bin.js"
-  },
-  "engines": {
-    "node": ">=14"
-  },
-  "scripts": {
-    "build": "tsc",
-    "build-w": "tsc -w",
-    "prepack": "yarn build"
-  },
-  "dependencies": {
-    "@prisma/client": "^3.4.2",
-    "@prisma/generator-helper": "^3.4.2",
-    "@prisma/sdk": "^3.4.2"
-  },
-  "devDependencies": {
-    "@types/node": "^16.11.7",
-    "prisma": "^3.4.2",
-    "typescript": "^4.4.4"
-  },
-  "homepage": "https://github.com/YassinEldeeb/Prisma-TypeGraphQL-Types-Generator",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/YassinEldeeb/Prisma-TypeGraphQL-Types-Generator.git"
-  },
-  "author": {
-    "name": "Yassin Eldeeb",
-    "email": "yassineldeeb94@gmail.com"
-  },
-  "keywords": [
-    "prisma",
-    "prisma2",
-    "type-graphql",
-    "typegraphql",
-    "prisma-framework",
-    "graphql",
-    "generator",
-    "copilot",
-    "classes",
-    "enums",
-    "types"
+  "private": true,
+  "workspaces": [
+    "packages/*"
   ]
 }

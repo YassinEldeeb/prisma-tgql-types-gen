@@ -82,6 +82,8 @@ generatorHandler({
         })),
       )
 
+      let dynamicImports = ''
+
       const formattedFields = model.fields.map((field, index) => {
         const { isHide, isPrivate } = HideOrPrivate(
           extractedData,
@@ -109,12 +111,22 @@ generatorHandler({
               ? field.type
               : `${exportedNamePrefix}${field.type}${exportedNameSuffix}`
 
+          const addDynamicImports = (exported: string) => {
+            if (dynamicImports.split(',').find((e) => e.trim() === exported)) {
+              return
+            }
+            dynamicImports += `, ${exported}`
+          }
           const getEquivalentType = () => {
             const convertedType = convertType(field.type)
             if (field.isId) {
               return 'ID'
             } else if (field.type === 'Int') {
+              addDynamicImports('Int')
               return 'Int'
+            } else if (field.type === 'Float') {
+              addDynamicImports('Float')
+              return 'Float'
             } else if (convertedType === 'Prisma.JsonValue') {
               return 'GraphQLScalars.JSONResolver'
             } else if (convertedType === 'Buffer') {
@@ -136,7 +148,9 @@ generatorHandler({
             typeGraphQLType.length === 0 ||
             (field.kind === 'scalar' &&
               !field.isId &&
-              typeGraphQLType !== 'Int')
+              !dynamicImports
+                .split(',')
+                .find((e) => e.trim() === typeGraphQLType))
           ) {
             return ''
           }
@@ -214,17 +228,12 @@ generatorHandler({
 
       let imports: string[] = []
 
-      const typeGraphqlImportDestructure = `{ Field, ID, ObjectType${
-        fields.find((field) => {
-          return typeof field === 'string' && field.includes('Int')
-        })
-          ? ', Int'
-          : ''
-      } }`
-
       // Import TypeGraphQL Stuff
       imports.push(
-        IMPORT_TEMPLATE(typeGraphqlImportDestructure, `type-graphql`),
+        IMPORT_TEMPLATE(
+          `{ Field, ID, ObjectType${dynamicImports} }`,
+          `type-graphql`,
+        ),
       )
 
       imports = [
