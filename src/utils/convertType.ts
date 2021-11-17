@@ -10,7 +10,7 @@ export const prismaTypes = [
   'Bytes',
 ]
 
-export const convertType = (type: string) => {
+export const convertType = (type: string, prefix?: string, suffix?: string) => {
   if (prismaTypes.includes(type)) {
     switch (type) {
       case 'String':
@@ -33,6 +33,6 @@ export const convertType = (type: string) => {
         return 'Buffer'
     }
   } else {
-    return type
+    return `${prefix || ''}${type}${suffix || ''}`
   }
 }

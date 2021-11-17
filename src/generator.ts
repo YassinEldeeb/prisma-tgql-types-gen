@@ -49,6 +49,9 @@ generatorHandler({
   onGenerate: async (options: GeneratorOptions) => {
     const extractedData = ExtractFieldsModifications(options.datamodel)
 
+    const exportedNameSuffix = options.generator.config.exportedNameSuffix || ''
+    const exportedNamePrefix = options.generator.config.exportedNamePrefix || ''
+
     const modelsWriteLocation =
       options.generator.config.modelsOutput || defaultModelsOutput
     const enumWriteLocation =
@@ -88,15 +91,24 @@ generatorHandler({
 
         if (isHide) return { hide: true, type: field.type }
 
-        const fieldType = `${convertType(field.type)!}${
-          field.isList ? '[]' : ''
-        }`
+        const fieldType = `${convertType(
+          field.type,
+          exportedNamePrefix,
+          exportedNameSuffix,
+        )!}${field.isList ? '[]' : ''}`
+
         const decoratorType = () => {
           // Special Cases
           const type = (type: string) =>
             `(${
               options.generator.config.removeTypeInFieldDecorator ? '' : '_type'
             }) => ${type}`
+
+          const modifiedFieldType =
+            field.kind === 'scalar'
+              ? field.type
+              : `${exportedNamePrefix}${field.type}${exportedNameSuffix}`
+
           const getEquavilentType = () => {
             if (field.isId) {
               return 'ID'
@@ -105,7 +117,7 @@ generatorHandler({
             } else if (convertType(field.type) === 'Buffer') {
               return 'GraphQLScalars.ByteResolver'
             } else {
-              return field.type
+              return modifiedFieldType
             }
           }
 
@@ -114,7 +126,7 @@ generatorHandler({
           if (field.isList) {
             return type(`[${typeGraphQLType}]`)
           } else if (field.kind === 'object' && !field.isList) {
-            return type(field.type)
+            return type(modifiedFieldType)
           }
 
           if (
@@ -206,7 +218,8 @@ generatorHandler({
           .map(({ kind, name }) => {
             if (!hidden.find((e: any) => e.type === name)) {
               if (kind === 'object') {
-                return IMPORT_TEMPLATE(`{ ${name} }`, `./${name}`)
+                const modelName = `${exportedNamePrefix}${name}${exportedNameSuffix}`
+                return IMPORT_TEMPLATE(`{ ${modelName} }`, `./${name}`)
               } else if (kind === 'enum') {
                 const relativePathToEnums = replaceAll(
                   path.relative(
@@ -216,8 +229,9 @@ generatorHandler({
                   '\\',
                   '/',
                 )
+                const enumName = `${exportedNamePrefix}${name}${exportedNameSuffix}`
                 return IMPORT_TEMPLATE(
-                  `{ ${name} }`,
+                  `{ ${enumName} }`,
                   `${relativePathToEnums}/${name}`,
                 )
               }
@@ -280,11 +294,9 @@ generatorHandler({
         }
       }
 
-      const classes = MODEL_TEMPLATE(
-        model.name,
-        fields.join('\n'),
-        classChanges,
-      )
+      const modelName = `${exportedNamePrefix}${model.name}${exportedNameSuffix}`
+      const classes = MODEL_TEMPLATE(modelName, fields.join('\n'), classChanges)
+
       const generatedModel = INDEX_TEMPLATE(
         classes,
         mergedImports.join('\n') + otherCodeThatChanged,
@@ -302,9 +314,11 @@ generatorHandler({
 
       const writeLocation = path.join(enumWriteLocation, fileName)
 
+      const enumName = `${exportedNamePrefix}${prismaEnum.name}${exportedNameSuffix}`
       const generatedEnum = ENUM_TEMPLATE(
-        prismaEnum.name,
+        enumName,
         prismaEnum.values.map((e) => `  ${e.name} = '${e.name}'`).join(',\n'),
+        prismaEnum.name,
       )
 
       // Make Folders that doesn't exist
