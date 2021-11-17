@@ -37,6 +37,8 @@ generator PrismaTypeGraphQLTypesGenerator {
   modelsOutput = "./src/models" // Optional defaults to "./src/generated/models"
   enumsOutput  = "./src/types/enums" // Optional defaults to "./src/generated/enums"
   useYarn      = true // Optional if you want `graphql-scalars` installation to be done via yarn defaults to "npm"
+  exportedNameSuffix = "GQL" // Optional if you want to add a suffix to the end of your exported class names and enums
+  exportedNamePrefix = "TYPE" // Optional if you want to prefix your exported class names and enums
 }
 ```
 

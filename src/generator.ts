@@ -109,19 +109,22 @@ generatorHandler({
               ? field.type
               : `${exportedNamePrefix}${field.type}${exportedNameSuffix}`
 
-          const getEquavilentType = () => {
+          const getEquivalentType = () => {
+            const convertedType = convertType(field.type)
             if (field.isId) {
               return 'ID'
-            } else if (convertType(field.type) === 'Prisma.JsonValue') {
+            } else if (field.type === 'Int') {
+              return 'Int'
+            } else if (convertedType === 'Prisma.JsonValue') {
               return 'GraphQLScalars.JSONResolver'
-            } else if (convertType(field.type) === 'Buffer') {
+            } else if (convertedType === 'Buffer') {
               return 'GraphQLScalars.ByteResolver'
             } else {
               return modifiedFieldType
             }
           }
 
-          const typeGraphQLType = getEquavilentType()
+          const typeGraphQLType = getEquivalentType()
 
           if (field.isList) {
             return type(`[${typeGraphQLType}]`)
@@ -131,7 +134,9 @@ generatorHandler({
 
           if (
             typeGraphQLType.length === 0 ||
-            (field.kind === 'scalar' && !field.isId)
+            (field.kind === 'scalar' &&
+              !field.isId &&
+              typeGraphQLType !== 'Int')
           ) {
             return ''
           }
@@ -209,8 +214,18 @@ generatorHandler({
 
       let imports: string[] = []
 
+      const typeGraphqlImportDestructure = `{ Field, ID, ObjectType${
+        fields.find((field) => {
+          return typeof field === 'string' && field.includes('Int')
+        })
+          ? ', Int'
+          : ''
+      } }`
+
       // Import TypeGraphQL Stuff
-      imports.push(IMPORT_TEMPLATE(`{ Field, ID, ObjectType }`, `type-graphql`))
+      imports.push(
+        IMPORT_TEMPLATE(typeGraphqlImportDestructure, `type-graphql`),
+      )
 
       imports = [
         ...imports,
