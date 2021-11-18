@@ -26,6 +26,7 @@ So I created a Prisma generator to help us with generating all of the TypegraphQ
 - specify the locations to tell where do you want to output the models and the enums.
 - only installs [`graphql-scalars`](https://github.com/Urigo/graphql-scalars) automatically if any custom scalar types were used in `prisma.schema` like Json or Bytes
 - option to use `yarn` for installing [`graphql-scalars`](https://github.com/Urigo/graphql-scalars) (default is npm).
+- add prefix or suffix to exported class names and enums.
 
 ## Usage
 
