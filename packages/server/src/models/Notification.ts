@@ -32,5 +32,5 @@ export class Notification {
   @Field()
   updatedAt: Date
 
-  // skip overwrite 👇
+,  // skip overwrite 👇
 }

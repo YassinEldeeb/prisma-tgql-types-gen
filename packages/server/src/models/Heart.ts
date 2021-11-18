@@ -23,5 +23,5 @@ export class Heart {
   @Field()
   updatedAt: Date
 
-  // skip overwrite 👇
+,  // skip overwrite 👇
 }

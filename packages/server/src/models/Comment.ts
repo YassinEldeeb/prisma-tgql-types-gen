@@ -32,5 +32,5 @@ export class Comment {
   @Field()
   updatedAt: Date
 
-  // skip overwrite 👇
+,  // skip overwrite 👇
 }

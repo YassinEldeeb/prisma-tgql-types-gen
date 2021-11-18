@@ -4,23 +4,29 @@ export const restoreClassChanges = (writeLocation: string) => {
   const fileExists = fs.existsSync(writeLocation)
   if (!fileExists) return
 
-  let customCode = ''
+  const customCode: string[] = []
   let index = 0
+
+  let Stop = false
 
   fs.readFileSync(writeLocation, 'utf-8')
     .split('\n')
+    .reverse()
     .forEach((line) => {
+      if (line.length === 0) return
       if (
-        line.includes('// skip overwrite') ||
-        (!line.includes('}') && customCode.length > 0)
+        !Stop &&
+        (line.includes('// skip overwrite') ||
+          (!line.includes('}') && customCode.length === 0) ||
+          customCode.length > 0)
       ) {
-        if (index > 0) customCode += '\n'
-        customCode += line
+        if (line.includes('// skip overwrite')) {
+          Stop = true
+        }
+        customCode.push(line)
         index++
       }
     })
 
-  return customCode !== '  // skip overwrite 👇'
-    ? customCode.replace(/\n$/, '')
-    : undefined
+  return customCode.reverse().join('\n').replace(/\n$/, '')
 }

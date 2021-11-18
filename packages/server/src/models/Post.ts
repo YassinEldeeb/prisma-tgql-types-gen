@@ -17,6 +17,9 @@ export class Post {
   @Field((_type) => [String])
   tags: string[]
 
+  @Field((_type) => [Int])
+  test: number[]
+
   @Field()
   published: boolean
 
@@ -50,5 +53,5 @@ export class Post {
   @Field()
   updatedAt: Date
 
-  // skip overwrite 👇
+,  // skip overwrite 👇
 }

@@ -58,4 +58,12 @@ export class User {
   updatedAt: Date
 
   // skip overwrite 👇
+  @Field({
+    complexity: 12,
+    name: 'Yell Hello',
+    defaultValue: 'Hello',
+    description: 'Hi bro whatsapp',
+    simple: true,
+  })
+  sayHello: string
 }

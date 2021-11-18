@@ -64,6 +64,7 @@ model Post {
   title          String
   body           String
   tags           String[]
+  test           Int[]
   published      Boolean   @default(false)
   hearts         Heart[]
   hearts_count   Int       @default(0)
