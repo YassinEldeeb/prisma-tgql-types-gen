@@ -18,5 +18,5 @@ export class Follower {
   @Field()
   updatedAt: Date
 
-,  // skip overwrite 👇
+  // skip overwrite 👇
 }

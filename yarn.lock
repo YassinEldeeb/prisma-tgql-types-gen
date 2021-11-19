@@ -446,6 +446,11 @@
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.1.tgz#d3357479a0fdfdd5907fe67e17e0a85c906e1301"
   integrity sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==
 
+"@types/prettier@^2.4.2":
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-2.4.2.tgz#4c62fae93eb479660c3bd93f9d24d561597a8281"
+  integrity sha512-ekoj4qOQYp7CvjX8ZDBgN86w3MqQhLE1hczEJbEIjgFEumDy+na/4AJAbLXfgEWFNB2pKadM5rPFtuSGMWK7xA==
+
 "@types/qs@*":
   version "6.9.7"
   resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.9.7.tgz#63bb7d067db107cc1e457c303bc25d511febf6cb"
@@ -1974,10 +1979,24 @@ pkg-dir@^4.1.0:
   dependencies:
     find-up "^4.0.0"
 
+prettier@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.4.1.tgz#671e11c89c14a4cfc876ce564106c4a6726c9f5c"
+  integrity sha512-9fbDAXSBcc6Bs1mZrDYb3XKzDLm4EXXL9sC1LqKP5rZkT6KRr/rf9amVUcODVXgguK/isJz0d0hP72WeaKWsvA==
+
 prettysize@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/prettysize/-/prettysize-2.0.0.tgz#902c02480d865d9cc0813011c9feb4fa02ce6996"
   integrity sha512-VVtxR7sOh0VsG8o06Ttq5TrI1aiZKmC+ClSn4eBPaNf4SHr5lzbYW+kYGX3HocBL/MfpVrRfFZ9V3vCbLaiplg==
+
+prisma-typegraphql-types-generator@1.1.14:
+  version "1.1.14"
+  resolved "https://registry.yarnpkg.com/prisma-typegraphql-types-generator/-/prisma-typegraphql-types-generator-1.1.14.tgz#1661f0424eb428f18fc8b58aa07b4b1958351849"
+  integrity sha512-0YuR0LPmkuvWmHgFpiTcRoexxxqqNa9LllGnolmf+d1meIAlgTFyLEgx6663hLQyyHkArwy+bmiSdSsYfQl08w==
+  dependencies:
+    "@prisma/client" "^3.4.2"
+    "@prisma/generator-helper" "^3.4.2"
+    "@prisma/sdk" "^3.4.2"
 
 prisma@^3.4.2:
   version "3.5.0"

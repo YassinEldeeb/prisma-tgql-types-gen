@@ -53,5 +53,5 @@ export class Post {
   @Field()
   updatedAt: Date
 
-,  // skip overwrite 👇
+  // skip overwrite 👇
 }

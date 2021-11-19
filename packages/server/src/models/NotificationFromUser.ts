@@ -18,5 +18,5 @@ export class NotificationFromUser {
   @Field()
   userWhoFiredId: string
 
-,  // skip overwrite 👇
+  // skip overwrite 👇
 }
