@@ -19,6 +19,7 @@ So I created a Prisma generator to help us with generating all of the TypegraphQ
 
 - Doesn't generate CRUD resolvers as [`typegraphql-prisma`](https://github.com/MichalLytek/typegraphql-prisma) does.
 - Generates TypegraphQL class types and enums from your `prisma.schema` file.
+- It searches for a prettier config starting from your working directory and if it was found, It uses it for formatting the generated output.
 - The Generated output is very human readable and doesn't look like generated code what so ever.
 - The Generated output can be edited so you can edit the generated output and the next generation won't overwrite your changes but sustain them.
 - I like to think of it as the pilot and you're the copilot cause you can change whatever you want in the generated files and when you mess up the generator will correct you.
