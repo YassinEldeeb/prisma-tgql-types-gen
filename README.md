@@ -227,8 +227,6 @@ You've probably noticed the `// skip overwrite 👇` comment at the very bottom 
 
 > ℹ when you try messing up by removing imports that a class needs, the generator will correct you and add it again
 
-> ⚠ a file can only has a single class otherwise you're gonna confuse the generator
-
 ```diff
 // src/models/User.ts
 import { Field, ID, ObjectType } from 'type-graphql'
