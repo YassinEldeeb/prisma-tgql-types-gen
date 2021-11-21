@@ -13,7 +13,7 @@ export const restoreClassChanges = (writeLocation: string) => {
     .split('\n')
     .reverse()
     .forEach((line) => {
-      if (line.length === 0) return
+      // if (line.length === 0) return
       if (
         !Stop &&
         (line.includes('// skip overwrite') ||
@@ -27,6 +27,8 @@ export const restoreClassChanges = (writeLocation: string) => {
         index++
       }
     })
+
+  console.log([...customCode].reverse().join('\n').replace(/\n$/, ''))
 
   return customCode.reverse().join('\n').replace(/\n$/, '')
 }

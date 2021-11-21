@@ -1,5 +1,3 @@
-import { splitButIgnoreCommasInQuotes } from './splitButIgnoreCommasInQuotes'
-
 export function objToString(obj: any) {
   let str = ''
   let index = 0

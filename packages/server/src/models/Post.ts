@@ -4,6 +4,15 @@ import { User } from './User'
 import { Comment } from './Comment'
 
 @ObjectType()
+export class Test2 {
+  @Field()
+  hello: string
+
+  @Field()
+  hi: string
+}
+
+@ObjectType()
 export class Post {
   @Field((_type) => ID)
   id: string
@@ -54,4 +63,15 @@ export class Post {
   updatedAt: Date
 
   // skip overwrite 👇
+  @Field()
+  hello: string
+}
+
+@ObjectType()
+export class Test {
+  @Field()
+  hello: string
+
+  @Field()
+  hi: string
 }

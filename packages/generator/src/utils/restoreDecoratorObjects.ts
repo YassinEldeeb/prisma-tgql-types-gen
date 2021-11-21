@@ -1,10 +1,10 @@
 import fs from 'fs'
-import { splitButIgnoreCommasInQuotes } from './splitButIgnoreCommasInQuotes'
 import { removeTheFirstChar } from './removeTheFirstChar'
 
 export const restoreDecoratorObjects = (
   writeLocation: string,
   fields: { field: string; type: string }[],
+  modelName: string,
 ) => {
   const fileExists = fs.existsSync(writeLocation)
   if (!fileExists) return
@@ -17,7 +17,7 @@ export const restoreDecoratorObjects = (
   lines.forEach((line, index) => {
     const lineIndex = index + 1
 
-    if (line.includes('export class')) {
+    if (line.includes(`export class ${modelName}`)) {
       modelCodeBlock = true
     }
 

@@ -1,6 +1,9 @@
 import fs from 'fs'
 
-export const restoreImportsChanges = (writeLocation: string) => {
+export const restoreImportsChanges = (
+  writeLocation: string,
+  modelName: string,
+) => {
   const fileExists = fs.existsSync(writeLocation)
   if (!fileExists) return
 
@@ -12,7 +15,7 @@ export const restoreImportsChanges = (writeLocation: string) => {
     .split('\n')
     .forEach((line) => {
       if (!exit) {
-        if (!line.includes('export class')) {
+        if (!line.includes(`export class ${modelName}`)) {
           if (index > 0) customCode += '\n'
           customCode += line
           index++

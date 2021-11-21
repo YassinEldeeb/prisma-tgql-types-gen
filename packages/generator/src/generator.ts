@@ -1,46 +1,46 @@
-import { generatorHandler, GeneratorOptions } from '@prisma/generator-helper';
-import { logger } from '@prisma/sdk';
-import fs from 'fs';
-import path from 'path';
-import { GENERATOR_NAME } from './constants';
-import { INDEX_TEMPLATE } from './templates';
-import { DECORATOR_TEMPLATE } from './templates/decorator';
-import { FIELD_TEMPLATE } from './templates/field';
-import { IMPORT_TEMPLATE } from './templates/import';
-import { MODEL_TEMPLATE } from './templates/model';
-import { convertType } from './utils/convertType';
-import { ExtractFieldsModifications } from './utils/extractFieldsModifications';
-import { HideOrPrivate } from './utils/hideOrPrivate';
-import { mkdir } from './utils/mkdir';
-import { modulesThatIsUsed } from './utils/modulesThatIsUsed';
-import { objToString } from './utils/objectToString';
-import { spawn } from 'child_process';
-import { ENUM_TEMPLATE } from './templates/enum';
-import { replaceAll } from './utils/replaceAll';
-import { restoreClassChanges } from './utils/restoreClassChanges';
-import { restoreImportsChanges } from './utils/restoreImportsSection';
-import { restoreDecoratorObjects } from './utils/restoreDecoratorObjects';
-import prettier from 'prettier';
-import { format } from './utils/format';
+import { generatorHandler, GeneratorOptions } from '@prisma/generator-helper'
+import { logger } from '@prisma/sdk'
+import fs from 'fs'
+import path from 'path'
+import { GENERATOR_NAME } from './constants'
+import { INDEX_TEMPLATE } from './templates'
+import { DECORATOR_TEMPLATE } from './templates/decorator'
+import { FIELD_TEMPLATE } from './templates/field'
+import { IMPORT_TEMPLATE } from './templates/import'
+import { MODEL_TEMPLATE } from './templates/model'
+import { convertType } from './utils/convertType'
+import { ExtractFieldsModifications } from './utils/extractFieldsModifications'
+import { HideOrPrivate } from './utils/hideOrPrivate'
+import { mkdir } from './utils/mkdir'
+import { modulesThatIsUsed } from './utils/modulesThatIsUsed'
+import { objToString } from './utils/objectToString'
+import { spawn } from 'child_process'
+import { ENUM_TEMPLATE } from './templates/enum'
+import { replaceAll } from './utils/replaceAll'
+import { restoreClassChanges } from './utils/restoreClassChanges'
+import { restoreImportsChanges } from './utils/restoreImportsSection'
+import { restoreDecoratorObjects } from './utils/restoreDecoratorObjects'
+import prettier from 'prettier'
+import { format } from './utils/format'
 
-const defaultModelsOutput = path.join(process.cwd(), './src/generated/models');
-const defaultEnumsOutput = path.join(process.cwd(), './src/generated/enums');
+const defaultModelsOutput = path.join(process.cwd(), './src/generated/models')
+const defaultEnumsOutput = path.join(process.cwd(), './src/generated/enums')
 
 const installPackage = (useYarn: string, pkgName: string) => {
-  const packageManager = useYarn ? 'yarn add' : 'npm i';
+  const packageManager = useYarn ? 'yarn add' : 'npm i'
 
   const hasGraphQLScalars = fs
     .readFileSync(path.join(process.cwd(), './package.json'), 'utf-8')
-    .includes(`"${pkgName}"`);
+    .includes(`"${pkgName}"`)
 
-  if (hasGraphQLScalars) return;
+  if (hasGraphQLScalars) return
 
-  logger.info(`${GENERATOR_NAME}:Installing ${pkgName}`);
+  logger.info(`${GENERATOR_NAME}:Installing ${pkgName}`)
   spawn(`${packageManager} ${pkgName}`, [], {
     shell: true,
     stdio: 'inherit',
-  });
-};
+  })
+}
 
 generatorHandler({
   onManifest: () => ({
@@ -49,34 +49,37 @@ generatorHandler({
     requiresGenerators: ['prisma-client-js'],
   }),
   onGenerate: async (options: GeneratorOptions) => {
-    const extractedData = ExtractFieldsModifications(options.datamodel);
+    const extractedData = ExtractFieldsModifications(options.datamodel)
 
-    const exportedNameSuffix =
-      options.generator.config.exportedNameSuffix || '';
-    const exportedNamePrefix =
-      options.generator.config.exportedNamePrefix || '';
+    const splitScalars =
+      !!options.generator.config.splitScalarAndObjectTypeFields
+
+    const exportedNameSuffix = options.generator.config.exportedNameSuffix || ''
+    const exportedNamePrefix = options.generator.config.exportedNamePrefix || ''
 
     const modelsWriteLocation =
-      options.generator.config.modelsOutput || defaultModelsOutput;
+      options.generator.config.modelsOutput || defaultModelsOutput
     const enumWriteLocation =
-      options.generator.config.enumsOutput || defaultEnumsOutput;
+      options.generator.config.enumsOutput || defaultEnumsOutput
 
     // ?Models
     options.dmmf.datamodel.models.map(async (model) => {
-      const fileName = model.name + '.ts';
+      const fileName = model.name + '.ts'
 
-      const writeLocation = path.join(modelsWriteLocation, fileName);
+      const writeLocation = path.join(modelsWriteLocation, fileName)
 
-      const allFields: { field: string; type: string }[] = [];
+      const allFields: { field: string; type: string }[] = []
 
       model.fields.map((field) => {
-        const optionalCondition = !field.isRequired;
-        const fieldName = `${field.name}${optionalCondition ? '?' : ''}`;
+        const optionalCondition = !field.isRequired
+        const fieldName = `${field.name}${optionalCondition ? '?' : ''}`
         const fieldType = `${convertType(field.type)!}${
           field.isList ? '[]' : ''
-        }`;
-        allFields.push({ field: fieldName, type: fieldType });
-      });
+        }`
+        allFields.push({ field: fieldName, type: fieldType })
+      })
+
+      const modelName = `${exportedNamePrefix}${model.name}${exportedNameSuffix}`
 
       const decoratorObjects = restoreDecoratorObjects(
         writeLocation,
@@ -84,68 +87,69 @@ generatorHandler({
           field: e.field.replace('?', ''),
           type: e.type,
         })),
-      );
+        modelName,
+      )
 
-      let dynamicImports = '';
+      let dynamicImports = ''
 
       const formattedFields = model.fields.map((field, index) => {
         const { isHide, isPrivate } = HideOrPrivate(
           extractedData,
           field.name,
           model.name,
-        );
+        )
 
-        if (isHide) return { hide: true, type: field.type };
+        if (isHide) return { hide: true, type: field.type }
 
         const fieldType = `${convertType(
           field.type,
           exportedNamePrefix,
           exportedNameSuffix,
-        )!}${field.isList ? '[]' : ''}`;
+        )!}${field.isList ? '[]' : ''}`
 
         const decoratorType = () => {
           // Special Cases
           const type = (type: string) =>
             `(${
               options.generator.config.removeTypeInFieldDecorator ? '' : '_type'
-            }) => ${type}`;
+            }) => ${type}`
 
           const modifiedFieldType =
             field.kind === 'scalar'
               ? field.type
-              : `${exportedNamePrefix}${field.type}${exportedNameSuffix}`;
+              : `${exportedNamePrefix}${field.type}${exportedNameSuffix}`
 
           const addDynamicImports = (exported: string) => {
             if (dynamicImports.split(',').find((e) => e.trim() === exported)) {
-              return;
+              return
             }
-            dynamicImports += `, ${exported}`;
-          };
+            dynamicImports += `, ${exported}`
+          }
           const getEquivalentType = () => {
-            const convertedType = convertType(field.type);
+            const convertedType = convertType(field.type)
             if (field.isId) {
-              return 'ID';
+              return 'ID'
             } else if (field.type === 'Int') {
-              addDynamicImports('Int');
-              return 'Int';
+              addDynamicImports('Int')
+              return 'Int'
             } else if (field.type === 'Float') {
-              addDynamicImports('Float');
-              return 'Float';
+              addDynamicImports('Float')
+              return 'Float'
             } else if (convertedType === 'Prisma.JsonValue') {
-              return 'GraphQLScalars.JSONResolver';
+              return 'GraphQLScalars.JSONResolver'
             } else if (convertedType === 'Buffer') {
-              return 'GraphQLScalars.ByteResolver';
+              return 'GraphQLScalars.ByteResolver'
             } else {
-              return modifiedFieldType;
+              return modifiedFieldType
             }
-          };
+          }
 
-          const typeGraphQLType = getEquivalentType();
+          const typeGraphQLType = getEquivalentType()
 
           if (field.isList) {
-            return type(`[${typeGraphQLType}]`);
+            return type(`[${typeGraphQLType}]`)
           } else if (field.kind === 'object' && !field.isList) {
-            return type(modifiedFieldType);
+            return type(modifiedFieldType)
           }
 
           if (
@@ -156,21 +160,21 @@ generatorHandler({
                 .split(',')
                 .find((e) => e.trim() === typeGraphQLType))
           ) {
-            return '';
+            return ''
           }
 
-          return type(typeGraphQLType);
-        };
+          return type(typeGraphQLType)
+        }
 
-        const optionalCondition = !field.isRequired;
-        const fieldName = `${field.name}${optionalCondition ? '?' : ''}`;
+        const optionalCondition = !field.isRequired
+        const fieldName = `${field.name}${optionalCondition ? '?' : ''}`
 
         const decoratorObject = () => {
-          let object: any = {};
+          let object: any = {}
 
           const editedOptions = decoratorObjects?.find(
             (e) => e.field === fieldName.replace('?', ''),
-          );
+          )
 
           if (editedOptions) {
             // Remove undefined keys
@@ -178,62 +182,59 @@ generatorHandler({
               (key) =>
                 editedOptions.decorator[key] === undefined &&
                 delete editedOptions.decorator[key],
-            );
+            )
           }
 
           if (
             editedOptions &&
             Object.keys(editedOptions?.decorator || {}).length > 0
           ) {
-            const value = editedOptions.decorator;
+            const value = editedOptions.decorator
 
-            object = { ...object, ...value };
+            object = { ...object, ...value }
           }
 
           if (optionalCondition || isPrivate) {
-            object.nullable = true;
+            object.nullable = true
           } else {
-            object.nullable = undefined;
+            object.nullable = undefined
           }
 
           // Remove undefined keys
           Object.keys(object).forEach(
             (key) => object[key] === undefined && delete object[key],
-          );
+          )
 
           if (Object.keys(object).length === 0) {
-            return undefined;
+            return undefined
           }
 
           // console.log(object, objToString(object))
-          return objToString(object);
-        };
+          return objToString(object)
+        }
 
-        const Decorator = DECORATOR_TEMPLATE(
-          decoratorType(),
-          decoratorObject(),
-        );
-        const Field = FIELD_TEMPLATE(Decorator, '\n  ' + fieldName, fieldType);
+        const Decorator = DECORATOR_TEMPLATE(decoratorType(), decoratorObject())
+        const Field = FIELD_TEMPLATE(Decorator, '\n  ' + fieldName, fieldType)
 
-        return Field;
-      });
+        return Field
+      })
 
       const hidden = formattedFields.filter((e) => {
-        if (typeof e !== 'string') return true;
-        else return false;
-      });
+        if (typeof e !== 'string') return true
+        else return false
+      })
 
       const fields = formattedFields.filter((e) => {
-        if (typeof e !== 'string') return false;
-        else return true;
-      });
+        if (typeof e !== 'string') return false
+        else return true
+      })
 
       const dependsOn = modulesThatIsUsed(
         options.dmmf.datamodel.models,
         model.name,
-      );
+      )
 
-      let imports: string[] = [];
+      let imports: string[] = []
 
       // Import TypeGraphQL Stuff
       imports.push(
@@ -241,7 +242,7 @@ generatorHandler({
           `{ Field, ID, ObjectType${dynamicImports} }`,
           `type-graphql`,
         ),
-      );
+      )
 
       imports = [
         ...imports,
@@ -249,8 +250,8 @@ generatorHandler({
           .map(({ kind, name }) => {
             if (!hidden.find((e: any) => e.type === name)) {
               if (kind === 'object') {
-                const modelName = `${exportedNamePrefix}${name}${exportedNameSuffix}`;
-                return IMPORT_TEMPLATE(`{ ${modelName} }`, `./${name}`);
+                const modelName = `${exportedNamePrefix}${name}${exportedNameSuffix}`
+                return IMPORT_TEMPLATE(`{ ${modelName} }`, `./${name}`)
               } else if (kind === 'enum') {
                 const relativePathToEnums = replaceAll(
                   path.relative(
@@ -259,35 +260,35 @@ generatorHandler({
                   ),
                   '\\',
                   '/',
-                );
-                const enumName = `${exportedNamePrefix}${name}${exportedNameSuffix}`;
+                )
+                const enumName = `${exportedNamePrefix}${name}${exportedNameSuffix}`
                 return IMPORT_TEMPLATE(
                   `{ ${enumName} }`,
                   `${relativePathToEnums}/${name}`,
-                );
+                )
               }
             } else {
-              return 'remove';
+              return 'remove'
             }
           })
           .filter((e) => e !== 'remove') as string[]),
-      ];
+      ]
 
       if (fields.join('\n').includes('Prisma.')) {
-        imports.push(IMPORT_TEMPLATE(`{ Prisma }`, `@prisma/client`));
+        imports.push(IMPORT_TEMPLATE(`{ Prisma }`, `@prisma/client`))
       }
 
       // Install needed Packages
       if (fields.join('\n').includes('GraphQLScalars.')) {
-        installPackage(options.generator.config.useYarn, 'graphql-scalars');
-        imports.push(IMPORT_TEMPLATE(`GraphQLScalars`, `graphql-scalars`));
+        installPackage(options.generator.config.useYarn, 'graphql-scalars')
+        imports.push(IMPORT_TEMPLATE(`GraphQLScalars`, `graphql-scalars`))
       }
 
-      const classChanges = restoreClassChanges(writeLocation);
-      const importsChanges = restoreImportsChanges(writeLocation);
+      const classChanges = restoreClassChanges(writeLocation)
+      const importsChanges = restoreImportsChanges(writeLocation, modelName)
 
       if (!importsChanges) {
-        imports.push(`\n@ObjectType()`);
+        imports.push(`\n@ObjectType()`)
       }
 
       const actualImportsThatChanged = importsChanges
@@ -296,22 +297,22 @@ generatorHandler({
               importsChanges
                 .split('\n')
                 .filter((e) => {
-                  return e.includes('import ') || e.includes('require(');
+                  return e.includes('import ') || e.includes('require(')
                 })
                 .join('\n'),
             )
           ).split('\n')
-        : null;
+        : null
 
       const otherCodeThatChanged = importsChanges
         ? '\n' +
           importsChanges
             ?.split('\n')
             .filter((e) => {
-              return !e.includes('import ') && !e.includes('require(');
+              return !e.includes('import ') && !e.includes('require(')
             })
             .join('\n')
-        : '';
+        : ''
 
       let mergedImports = !importsChanges
         ? imports
@@ -320,62 +321,57 @@ generatorHandler({
               ...actualImportsThatChanged!,
               ...(await format(imports.join('\n'))).split('\n'),
             ]),
-          ];
+          ]
 
       // Add empty line between imports and code
       const codeSplitted = (
         mergedImports.join('\n') + otherCodeThatChanged
-      ).split('\n');
+      ).split('\n')
 
       const ObjectTypeIndex = codeSplitted.findIndex((e) =>
         e.includes('@ObjectType'),
-      );
+      )
 
       if (codeSplitted[ObjectTypeIndex - 1].length !== 0) {
         if (otherCodeThatChanged.length) {
-          mergedImports.push('');
+          mergedImports.push('')
         }
       }
 
-      const modelName = `${exportedNamePrefix}${model.name}${exportedNameSuffix}`;
-      const classes = MODEL_TEMPLATE(
-        modelName,
-        fields.join('\n'),
-        classChanges,
-      );
+      const classes = MODEL_TEMPLATE(modelName, fields.join('\n'), classChanges)
 
       const generatedModel = INDEX_TEMPLATE(
         classes,
         mergedImports.join('\n') + otherCodeThatChanged,
-      );
+      )
 
       // Make Folders that doesn't exist
-      mkdir(writeLocation, fileName);
+      mkdir(writeLocation, fileName)
 
-      fs.writeFileSync(writeLocation, await format(generatedModel));
-    });
+      fs.writeFileSync(writeLocation, await format(generatedModel))
+    })
 
     // ?Enums
     options.dmmf.datamodel.enums.map(async (prismaEnum) => {
-      const fileName = prismaEnum.name + '.ts';
+      const fileName = prismaEnum.name + '.ts'
 
-      const writeLocation = path.join(enumWriteLocation, fileName);
+      const writeLocation = path.join(enumWriteLocation, fileName)
 
-      const enumName = `${exportedNamePrefix}${prismaEnum.name}${exportedNameSuffix}`;
+      const enumName = `${exportedNamePrefix}${prismaEnum.name}${exportedNameSuffix}`
       const generatedEnum = ENUM_TEMPLATE(
         enumName,
         prismaEnum.values.map((e) => `  ${e.name} = '${e.name}'`).join(',\n'),
         prismaEnum.name,
-      );
+      )
 
       // Make Folders that doesn't exist
-      mkdir(writeLocation, fileName);
+      mkdir(writeLocation, fileName)
 
-      fs.writeFileSync(writeLocation, await format(generatedEnum));
-    });
+      fs.writeFileSync(writeLocation, await format(generatedEnum))
+    })
 
-    logger.info(`${GENERATOR_NAME}:Generated Successfuly!`);
+    logger.info(`${GENERATOR_NAME}:Generated Successfuly!`)
   },
-});
+})
 
-logger.info(`${GENERATOR_NAME}:Registered`);
+logger.info(`${GENERATOR_NAME}:Registered`)
