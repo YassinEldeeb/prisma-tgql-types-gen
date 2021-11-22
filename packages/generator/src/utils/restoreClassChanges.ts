@@ -28,7 +28,5 @@ export const restoreClassChanges = (writeLocation: string) => {
       }
     })
 
-  console.log([...customCode].reverse().join('\n').replace(/\n$/, ''))
-
   return customCode.reverse().join('\n').replace(/\n$/, '')
 }

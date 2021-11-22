@@ -92,7 +92,7 @@ generatorHandler({
 
       let dynamicImports = ''
 
-      const formattedFields = model.fields.map((field, index) => {
+      const formattedFields = model.fields.map((field) => {
         const { isHide, isPrivate } = HideOrPrivate(
           extractedData,
           field.name,
@@ -127,6 +127,7 @@ generatorHandler({
           }
           const getEquivalentType = () => {
             const convertedType = convertType(field.type)
+
             if (field.isId) {
               return 'ID'
             } else if (field.type === 'Int') {
@@ -156,6 +157,7 @@ generatorHandler({
             typeGraphQLType.length === 0 ||
             (field.kind === 'scalar' &&
               !field.isId &&
+              field.type !== 'Json' &&
               !dynamicImports
                 .split(',')
                 .find((e) => e.trim() === typeGraphQLType))
@@ -209,25 +211,40 @@ generatorHandler({
             return undefined
           }
 
-          // console.log(object, objToString(object))
           return objToString(object)
         }
 
         const Decorator = DECORATOR_TEMPLATE(decoratorType(), decoratorObject())
         const Field = FIELD_TEMPLATE(Decorator, '\n  ' + fieldName, fieldType)
 
-        return Field
+        return { field: Field, kind: field.kind }
       })
 
       const hidden = formattedFields.filter((e) => {
-        if (typeof e !== 'string') return true
+        if (e?.hide) return true
         else return false
       })
 
-      const fields = formattedFields.filter((e) => {
-        if (typeof e !== 'string') return false
-        else return true
-      })
+      const scalarFields = formattedFields
+        .filter((e) => {
+          if (!e?.field || e.kind === 'object') return false
+          else return true
+        })
+        .map((e) => e.field)
+
+      const objectsFields = formattedFields
+        .filter((e) => {
+          if (!e?.field || e.kind === 'scalar') return false
+          else return true
+        })
+        .map((e) => e.field)
+
+      const mergedFields = formattedFields
+        .filter((e) => {
+          if (!e?.field) return false
+          else return true
+        })
+        .map((e) => e.field)
 
       const dependsOn = modulesThatIsUsed(
         options.dmmf.datamodel.models,
@@ -274,12 +291,12 @@ generatorHandler({
           .filter((e) => e !== 'remove') as string[]),
       ]
 
-      if (fields.join('\n').includes('Prisma.')) {
+      if (scalarFields.join('\n').includes('Prisma.')) {
         imports.push(IMPORT_TEMPLATE(`{ Prisma }`, `@prisma/client`))
       }
 
       // Install needed Packages
-      if (fields.join('\n').includes('GraphQLScalars.')) {
+      if (scalarFields.join('\n').includes('GraphQLScalars.')) {
         installPackage(options.generator.config.useYarn, 'graphql-scalars')
         imports.push(IMPORT_TEMPLATE(`GraphQLScalars`, `graphql-scalars`))
       }
@@ -338,12 +355,37 @@ generatorHandler({
         }
       }
 
-      const classes = MODEL_TEMPLATE(modelName, fields.join('\n'), classChanges)
+      let generatedModel: string
+      if (splitScalars) {
+        const scalarsClass = MODEL_TEMPLATE(
+          `${modelName}Scalars`,
+          scalarFields.join('\n'),
+          '\n}',
+        )
 
-      const generatedModel = INDEX_TEMPLATE(
-        classes,
-        mergedImports.join('\n') + otherCodeThatChanged,
-      )
+        const objectsClass = MODEL_TEMPLATE(
+          modelName,
+          objectsFields.join('\n'),
+          classChanges,
+          ` extends ${modelName}Scalars`,
+        )
+
+        generatedModel = INDEX_TEMPLATE(
+          [scalarsClass, objectsClass].join('\n\n'),
+          mergedImports.join('\n') + otherCodeThatChanged,
+        )
+      } else {
+        const wholeClass = MODEL_TEMPLATE(
+          modelName,
+          mergedFields.join('\n'),
+          classChanges,
+        )
+
+        generatedModel = INDEX_TEMPLATE(
+          wholeClass,
+          mergedImports.join('\n') + otherCodeThatChanged,
+        )
+      }
 
       // Make Folders that doesn't exist
       mkdir(writeLocation, fileName)
