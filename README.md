@@ -221,7 +221,7 @@ registerEnumType(Language, {
 
 You've probably noticed the `// skip overwrite 👇` comment at the very bottom of any generated class model and this's a part of what I like to call **Safe Areas** where you can write code without being overwritten by the generator.
 
-### So there're 3 **Safe Areas**:
+### So there're 4 **Safe Areas**:
 
 1- above the class where you can add your own logic here and import other files/libraries
 
@@ -271,6 +271,24 @@ export class User {
 + @Field()
 + sayHello: string
 }
+```
+
+4- after the class
+```diff
+// src/models/User.ts
+@ObjectType()
+export class User {
+  ...
+  // skip overwrite 👇
+}
+
++ export class UserPayload {
++   @Field((_type) => User)
++   data: User
++
++   @Field()
++   token: string
++ }
 ```
 
 ## Real World Example
