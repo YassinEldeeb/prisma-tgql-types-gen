@@ -282,6 +282,7 @@ export class User {
   // skip overwrite 👇
 }
 
++ @ObjectType()
 + export class UserPayload {
 +   @Field((_type) => User)
 +   data: User
