@@ -1,8 +1,8 @@
 import { Field, ID, ObjectType, Int } from 'type-graphql'
 import { Post } from './Post'
-import { Comment } from './Comment'
-import { Follower } from './Follower'
 import { Notification } from './Notification'
+import { Follower } from './Follower'
+import { Comment } from './Comment'
 
 @ObjectType()
 export class User {

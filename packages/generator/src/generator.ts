@@ -389,7 +389,8 @@ generatorHandler({
 
         generatedModel = INDEX_TEMPLATE(
           wholeClass,
-          mergedImports.join('\n') + otherCodeThatChanged,
+          mergedImports.filter((e) => e !== '').join('\n') +
+            otherCodeThatChanged,
         )
       }
 
