@@ -1,6 +1,15 @@
 {
   "private": true,
+  "name": "private-monorepo",
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "repository": "git://github.com/YassinEldeeb/Prisma-TypeGraphQL-Types-Generator.git",
+  "version": "0.0.0-development",
+  "scripts": {
+    "semantic-release": "semantic-release --branches main"
+  },
+  "devDependencies": {
+    "semantic-release": "^18.0.1"
+  }
 }
