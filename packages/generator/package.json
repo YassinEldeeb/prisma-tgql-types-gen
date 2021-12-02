@@ -13,7 +13,8 @@
   "scripts": {
     "build": "tsc",
     "build-w": "tsc -w",
-    "prepack": "yarn build"
+    "prepack": "yarn build",
+    "commit": "git-cz"
   },
   "dependencies": {
     "@prisma/client": "^3.6.0",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@types/node": "^16.11.11",
     "@types/prettier": "^2.4.2",
+    "cz-conventional-changelog": "3.3.0",
     "prisma": "^3.6.0",
     "typescript": "^4.5.2"
   },
@@ -42,5 +44,10 @@
     "classes",
     "enums",
     "types"
-  ]
+  ],
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }
