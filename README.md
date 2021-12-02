@@ -22,7 +22,7 @@ So I created a Prisma generator to help us with generating all of the TypegraphQ
 - It searches for a prettier config starting from your working directory and if it was found, It uses it for formatting the generated output.
 - The Generated output is very human readable and doesn't look like generated code what so ever.
 - The Generated output can be edited so you can edit the generated output and the next generation won't overwrite your changes but sustain them.
-- I like to think of it as the pilot and you're the copilot cause you can change whatever you want in the generated files and when you mess up the generator will correct you.
+- change whatever you want in the generated files and when you mess up the generator will correct you.
 - make the fields be skipped or nullable(require authentication).
 - specify the locations to tell where do you want to output the models and the enums.
 - only installs [`graphql-scalars`](https://github.com/Urigo/graphql-scalars) automatically if any custom scalar types were used in `prisma.schema` like Json or Bytes
@@ -221,7 +221,7 @@ registerEnumType(Language, {
 
 You've probably noticed the `// skip overwrite 👇` comment at the very bottom of any generated class model and this's a part of what I like to call **Safe Areas** where you can write code without being overwritten by the generator.
 
-### So there're 3 **Safe Areas**:
+### So there're 4 **Safe Areas**:
 
 1- above the class where you can add your own logic here and import other files/libraries
 
@@ -271,6 +271,25 @@ export class User {
 + @Field()
 + sayHello: string
 }
+```
+
+4- after the class
+```diff
+// src/models/User.ts
+@ObjectType()
+export class User {
+  ...
+  // skip overwrite 👇
+}
+
++ @ObjectType()
++ export class UserPayload {
++   @Field((_type) => User)
++   data: User
++
++   @Field()
++   token: string
++ }
 ```
 
 ## Real World Example
