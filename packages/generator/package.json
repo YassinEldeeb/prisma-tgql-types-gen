@@ -8,7 +8,7 @@
     "prisma-typegraphql-types-generator": "dist/bin.js"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=12.0"
   },
   "scripts": {
     "build": "tsc",
