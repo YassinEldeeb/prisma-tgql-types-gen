@@ -267,8 +267,14 @@ generatorHandler({
           .map(({ kind, name }) => {
             if (!hidden.find((e: any) => e.type === name)) {
               if (kind === 'object') {
-                const modelName = `${exportedNamePrefix}${name}${exportedNameSuffix}`
-                return IMPORT_TEMPLATE(`{ ${modelName} }`, `./${name}`)
+                const importModelName = `${exportedNamePrefix}${name}${exportedNameSuffix}`
+
+                // If the Model referenced itself -> return
+                if (importModelName === modelName) {
+                  return
+                }
+
+                return IMPORT_TEMPLATE(`{ ${importModelName} }`, `./${name}`)
               } else if (kind === 'enum') {
                 const relativePathToEnums = replaceAll(
                   path.relative(

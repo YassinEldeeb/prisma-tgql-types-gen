@@ -4,15 +4,9 @@ import { NotificationFromUser } from './NotificationFromUser'
 import { NotificationType } from '../types/NotificationType'
 
 @ObjectType()
-export class Notification {
+export class NotificationScalars {
   @Field((_type) => ID)
   id: string
-
-  @Field((_type) => User)
-  notifiedUser: User
-
-  @Field((_type) => [NotificationFromUser])
-  fromUsers: NotificationFromUser[]
 
   @Field()
   seen: boolean
@@ -31,6 +25,17 @@ export class Notification {
 
   @Field()
   updatedAt: Date
+}
+
+export class Notification extends NotificationScalars {
+  @Field((_type) => User)
+  notifiedUser: User
+
+  @Field((_type) => [NotificationFromUser])
+  fromUsers: NotificationFromUser[]
+
+  @Field((_type) => NotificationType)
+  type: NotificationType
 
   // skip overwrite 👇
 }
