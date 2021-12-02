@@ -4,18 +4,10 @@ import { Post } from './Post'
 import { Comment } from './Comment'
 
 @ObjectType()
-export class HeartScalars {
+export class Heart {
   @Field((_type) => ID)
   id: string
 
-  @Field()
-  createdAt: Date
-
-  @Field()
-  updatedAt: Date
-}
-
-export class Heart extends HeartScalars {
   @Field((_type) => User)
   user: User
 
@@ -24,6 +16,12 @@ export class Heart extends HeartScalars {
 
   @Field((_type) => Comment, { nullable: true })
   comment?: Comment
+
+  @Field()
+  createdAt: Date
+
+  @Field()
+  updatedAt: Date
 
   // skip overwrite 👇
 }

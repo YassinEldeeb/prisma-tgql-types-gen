@@ -2,23 +2,21 @@ import { Field, ID, ObjectType } from 'type-graphql'
 import { User } from './User'
 
 @ObjectType()
-export class FollowerScalars {
+export class Follower {
   @Field((_type) => ID)
   id: string
+
+  @Field((_type) => User)
+  followed_user: User
+
+  @Field((_type) => User)
+  follower_user: User
 
   @Field()
   createdAt: Date
 
   @Field()
   updatedAt: Date
-}
-
-export class Follower extends FollowerScalars {
-  @Field((_type) => User)
-  followed_user: User
-
-  @Field((_type) => User)
-  follower_user: User
 
   // skip overwrite 👇
 }

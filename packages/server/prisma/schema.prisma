@@ -3,11 +3,10 @@ generator client {
 }
 
 generator PrismaTypeGraphQLTypesGenerator {
-  provider                       = "yarn prisma-typegraphql-types-generator"
-  modelsOutput                   = "./src/models"
-  enumsOutput                    = "./src/types"
-  useYarn                        = true
-  splitScalarAndObjectTypeFields = true
+  provider     = "yarn prisma-typegraphql-types-generator"
+  modelsOutput = "./src/models"
+  enumsOutput  = "./src/types"
+  useYarn      = true
 }
 
 datasource db {

@@ -4,16 +4,7 @@ import { User } from './User'
 import { Comment } from './Comment'
 
 @ObjectType()
-export class Test2 {
-  @Field()
-  hello: string
-
-  @Field()
-  hi: string
-}
-
-@ObjectType()
-export class PostScalars {
+export class Post {
   @Field((_type) => ID)
   id: string
 
@@ -32,11 +23,20 @@ export class PostScalars {
   @Field()
   published: boolean
 
+  @Field((_type) => [Heart])
+  hearts: Heart[]
+
   @Field((_type) => Int)
   hearts_count: number
 
   @Field((_type) => Int)
   comments_count: number
+
+  @Field((_type) => User)
+  author: User
+
+  @Field((_type) => [Comment])
+  comments: Comment[]
 
   @Field()
   readingTimeTxt: string
@@ -52,28 +52,6 @@ export class PostScalars {
 
   @Field()
   updatedAt: Date
-}
-
-export class Post extends PostScalars {
-  @Field((_type) => [Heart])
-  hearts: Heart[]
-
-  @Field((_type) => User)
-  author: User
-
-  @Field((_type) => [Comment])
-  comments: Comment[]
 
   // skip overwrite 👇
-  @Field()
-  hello: string
-}
-
-@ObjectType()
-export class Test {
-  @Field()
-  hello: string
-
-  @Field()
-  hi: string
 }

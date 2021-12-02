@@ -5,7 +5,7 @@ import { Follower } from './Follower'
 import { Notification } from './Notification'
 
 @ObjectType()
-export class UserScalars {
+export class User {
   @Field((_type) => ID)
   id: string
 
@@ -24,11 +24,26 @@ export class UserScalars {
   @Field({ nullable: true })
   profilePic?: string
 
+  @Field((_type) => [Post])
+  posts: Post[]
+
+  @Field((_type) => [Comment])
+  comments: Comment[]
+
   @Field((_type) => Int)
   followers_count: number
 
   @Field((_type) => Int)
   following_count: number
+
+  @Field((_type) => [Follower])
+  followers: Follower[]
+
+  @Field((_type) => [Follower])
+  following: Follower[]
+
+  @Field((_type) => [Notification])
+  notifications: Notification[]
 
   @Field({ nullable: true })
   githubId?: string
@@ -42,31 +57,14 @@ export class UserScalars {
   @Field()
   updatedAt: Date
 
-  @Field({ nullable: true })
-  userId?: string
-}
-
-export class User extends UserScalars {
-  @Field((_type) => [Post])
-  posts: Post[]
-
-  @Field((_type) => [Comment])
-  comments: Comment[]
-
-  @Field((_type) => [Follower])
-  followers: Follower[]
-
-  @Field((_type) => [Follower])
-  following: Follower[]
-
-  @Field((_type) => [Notification])
-  notifications: Notification[]
-
   @Field((_type) => [User])
   accounts: User[]
 
   @Field((_type) => User, { nullable: true })
   User?: User
+
+  @Field({ nullable: true })
+  userId?: string
 
   // skip overwrite 👇
 }
