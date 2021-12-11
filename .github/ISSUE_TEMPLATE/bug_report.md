@@ -1,38 +1,35 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: ''
-labels: ''
-assignees: ''
+title: 'Bug:'
+labels: bug, help wanted
+assignees: YassinEldeeb
 
 ---
 
-**Describe the bug**
+## Bug description
 A clear and concise description of what the bug is.
 
-**To Reproduce**
+## To Reproduce
 Steps to reproduce the behavior:
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
 
-**Expected behavior**
+## Expected behavior
 A clear and concise description of what you expected to happen.
 
-**Screenshots**
+## Screenshots
 If applicable, add screenshots to help explain your problem.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+## Prisma information
+add the used `schema.prisma` file
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+## Environment & setup
+- OS: <!--[e.g. Mac OS, Windows, Debian, CentOS, ...]-->
+- Database: <!--[PostgreSQL, MySQL, MariaDB or SQLite]-->
+- Node.js version: <!--[Run `node -v` to see your Node.js version]-->
 
-**Additional context**
-Add any other context about the problem here.
+## Prisma  Version
+run `prisma -v` to  to see your Prisma version and paste it between the ´´´
