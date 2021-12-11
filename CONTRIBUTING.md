@@ -1,7 +1,5 @@
 ## How do I Contribute 💪
 
-We'll be very thankful for all your contributions, whether it's for helping us find issues in our code, highlighting features that're missing, writing tests for uncovered cases, or contributing to the codebase.
-
 we're excited to have you on board!
 
 - Take a look at the existing [Issues](https://github.com/YassinEldeeb/prisma-tgql-types-gen/issues) or [create a new issue](https://github.com/YassinEldeeb/prisma-tgql-types-gen/issues/new/choose)!
