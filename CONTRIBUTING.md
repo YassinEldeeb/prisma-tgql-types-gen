@@ -1,4 +1,4 @@
-## How to Contribute 💪
+## How do I Contribute 💪
 
 We'll be very thankful for all your contributions, whether it's for helping us find issues in our code, highlighting features that're missing, writing tests for uncovered cases, or contributing to the codebase.
 
