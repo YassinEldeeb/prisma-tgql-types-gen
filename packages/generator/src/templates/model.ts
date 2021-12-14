@@ -4,7 +4,9 @@ export const MODEL_TEMPLATE = (
   CUSTOMFIELDS: string = '  // skip overwrite 👇\n}',
   EXTENDS: string = '',
 ) => {
-  return `export class ${CLASSNAME}${EXTENDS} {
+  return `${
+    EXTENDS.length > 0 ? '@ObjectType()\n' : ''
+  }export class ${CLASSNAME}${EXTENDS} {
 ${FIELDS}
 ${CUSTOMFIELDS}`
 }

@@ -14,7 +14,9 @@
     "build": "tsc",
     "build-w": "tsc -w",
     "prepack": "yarn build",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "test": "jest",
+    "publish-locally": "yalc push"
   },
   "dependencies": {
     "@prisma/client": "^3.6.0",
