@@ -1,10 +1,12 @@
+import { Field, ID, ObjectType, Float } from 'type-graphql'
+import { User } from './User'
+
 import { Field, ID, ObjectType, Int, Float } from 'type-graphql'
 import { Heart } from './Heart'
-import { User } from './User'
 import { Comment } from './Comment'
 
 @ObjectType()
-export class Post {
+export class PostScalars {
   @Field((_type) => ID)
   id: string
 
@@ -23,20 +25,11 @@ export class Post {
   @Field()
   published: boolean
 
-  @Field((_type) => [Heart])
-  hearts: Heart[]
-
   @Field((_type) => Int)
   hearts_count: number
 
   @Field((_type) => Int)
   comments_count: number
-
-  @Field((_type) => User)
-  author: User
-
-  @Field((_type) => [Comment])
-  comments: Comment[]
 
   @Field()
   readingTimeTxt: string
@@ -52,6 +45,18 @@ export class Post {
 
   @Field()
   updatedAt: Date
+}
+
+@ObjectType()
+export class Post extends PostScalars {
+  @Field((_type) => [Heart])
+  hearts: Heart[]
+
+  @Field((_type) => User)
+  author: User
+
+  @Field((_type) => [Comment])
+  comments: Comment[]
 
   // skip overwrite 👇
 }

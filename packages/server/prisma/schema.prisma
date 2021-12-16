@@ -3,10 +3,11 @@ generator client {
 }
 
 generator PrismaTypeGraphQLTypesGenerator {
-  provider     = "yarn prisma-typegraphql-types-generator"
-  modelsOutput = "./src/models"
-  enumsOutput  = "./src/types"
-  useYarn      = true
+  provider                       = "node node_modules/prisma-typegraphql-types-generator"
+  modelsOutput                   = "./src/models"
+  enumsOutput                    = "./src/types"
+  useYarn                        = true
+  splitScalarAndObjectTypeFields = true
 }
 
 datasource db {
@@ -45,9 +46,6 @@ model User {
   lastTimelineVisit             DateTime?
   createdAt                     DateTime               @default(now())
   updatedAt                     DateTime               @updatedAt
-  accounts                      User[]                 @relation("UserToUser")
-  User                          User?                  @relation("UserToUser", fields: [userId], references: [id])
-  userId                        String?
 }
 
 model Follower {

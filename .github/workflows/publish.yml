@@ -12,8 +12,6 @@ on:
 jobs:
   Publish:
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./packages/generator
 
     steps:
       - name: Use Node.js
@@ -33,13 +31,15 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install deps
+        working-directory: ./packages/generator
         run: yarn install
-      
+
       - name: Build 📦
-        run: npx tsc
-      
+        working-directory: ./packages/generator
+        run: yarn build
+
       - name: Publish 🚀
+        working-directory: ./packages/generator
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-      

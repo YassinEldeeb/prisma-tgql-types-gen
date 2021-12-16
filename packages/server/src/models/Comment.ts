@@ -4,21 +4,12 @@ import { Post } from './Post'
 import { Heart } from './Heart'
 
 @ObjectType()
-export class Comment {
+export class CommentScalars {
   @Field((_type) => ID)
   id: string
 
   @Field()
   text: string
-
-  @Field((_type) => User)
-  author: User
-
-  @Field((_type) => Post)
-  post: Post
-
-  @Field((_type) => [Heart])
-  hearts: Heart[]
 
   @Field((_type) => Int)
   hearts_count: number
@@ -31,6 +22,18 @@ export class Comment {
 
   @Field()
   updatedAt: Date
+}
+
+@ObjectType()
+export class Comment extends CommentScalars {
+  @Field((_type) => User)
+  author: User
+
+  @Field((_type) => Post)
+  post: Post
+
+  @Field((_type) => [Heart])
+  hearts: Heart[]
 
   // skip overwrite 👇
 }

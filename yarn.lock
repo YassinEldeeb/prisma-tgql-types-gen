@@ -3956,16 +3956,6 @@ prettysize@^2.0.0:
   resolved "https://registry.yarnpkg.com/prettysize/-/prettysize-2.0.0.tgz#902c02480d865d9cc0813011c9feb4fa02ce6996"
   integrity sha512-VVtxR7sOh0VsG8o06Ttq5TrI1aiZKmC+ClSn4eBPaNf4SHr5lzbYW+kYGX3HocBL/MfpVrRfFZ9V3vCbLaiplg==
 
-prisma-typegraphql-types-generator@1.4.19:
-  version "1.4.19"
-  resolved "https://registry.yarnpkg.com/prisma-typegraphql-types-generator/-/prisma-typegraphql-types-generator-1.4.19.tgz#d02d0783302d85b614c916354b6167ee189927d0"
-  integrity sha512-Y2ktsv8+O4y84nDCG2K40eMGPirbeCE/G4whEGmqTLFObYbIhGHbt1KnUJhb+1huOHqlUGrV/DyhXLAbkMxJVQ==
-  dependencies:
-    "@prisma/client" "^3.6.0"
-    "@prisma/generator-helper" "^3.6.0"
-    "@prisma/sdk" "^3.6.0"
-    prettier "^2.5.0"
-
 prisma@^3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/prisma/-/prisma-3.6.0.tgz#99532abc02e045e58c6133a19771bdeb28cecdbe"

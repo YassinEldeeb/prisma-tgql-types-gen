@@ -1,0 +1,9 @@
+{
+  "version": "v1",
+  "packages": {
+    "prisma-typegraphql-types-generator": {
+      "signature": "734824b50c868fd2bb1d5cbe6184af9f",
+      "file": true
+    }
+  }
+}
