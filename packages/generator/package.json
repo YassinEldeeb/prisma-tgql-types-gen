@@ -51,8 +51,5 @@
     "classes",
     "enums",
     "types"
-  ],
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  }
+  ]
 }
