@@ -38,6 +38,9 @@ jobs:
         working-directory: ./packages/generator
         run: yarn build
 
+      - name: Release
+        run: npx semantic-release
+
       - name: Publish 🚀
         working-directory: ./packages/generator
         run: npm publish --access public

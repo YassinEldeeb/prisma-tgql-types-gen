@@ -27,9 +27,9 @@
   "devDependencies": {
     "@types/node": "^16.11.11",
     "@types/prettier": "^2.4.2",
-    "cz-conventional-changelog": "3.3.0",
     "jest": "^27.4.3",
     "prisma": "^3.6.0",
+    "semantic-release": "^18.0.1",
     "typescript": "^4.5.2"
   },
   "homepage": "https://github.com/YassinEldeeb/Prisma-TypeGraphQL-Types-Generator",
@@ -48,9 +48,9 @@
     "enums",
     "types"
   ],
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
+  "release": {
+    "branches": [
+      "main"
+    ]
   }
 }
