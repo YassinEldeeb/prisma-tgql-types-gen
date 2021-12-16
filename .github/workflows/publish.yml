@@ -35,7 +35,9 @@ jobs:
         run: yarn install
 
       - name: Publish 🚀
-        run: npm run semantic-release
+        working-directory: ./packages/generator
+        run: |
+          npm run semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
