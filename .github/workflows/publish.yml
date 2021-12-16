@@ -40,7 +40,7 @@ jobs:
 
       - name: Publish 🚀
         working-directory: ./packages/generator
-        run: npx semantic-release
+        run: npx semantic-release@17.4.2
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
