@@ -23,7 +23,8 @@
     "@prisma/client": "^3.6.0",
     "@prisma/generator-helper": "^3.6.0",
     "@prisma/sdk": "^3.6.0",
-    "prettier": "^2.5.0"
+    "prettier": "^2.5.0",
+    "semantic-release": "17.4.2"
   },
   "devDependencies": {
     "@types/node": "^16.11.11",
@@ -36,7 +37,7 @@
   "homepage": "https://github.com/YassinEldeeb/Prisma-TypeGraphQL-Types-Generator",
   "repository": {
     "type": "git",
-    "url": "https://github.com/YassinEldeeb/prisma-tgql-types-gen"
+    "url": "https://github.com/YassinEldeeb/prisma-tgql-types-gen.git"
   },
   "author": "Yassin Eldeeb <yassineldeeb94@gmail.com>",
   "keywords": [
