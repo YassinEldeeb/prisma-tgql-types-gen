@@ -39,6 +39,7 @@ jobs:
         run: yarn build
 
       - name: Release
+        working-directory: ./packages/generator
         run: npx semantic-release
 
       - name: Publish 🚀
