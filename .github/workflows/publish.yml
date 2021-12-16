@@ -27,7 +27,7 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
-      - name: Install deps
+      - name: Install dependencies
         working-directory: ./packages/generator
         run: yarn install
 
