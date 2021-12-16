@@ -38,7 +38,7 @@ jobs:
         working-directory: ./packages/generator
         run: yarn build
 
-      - name: Release 📌
+      - name: Release
         working-directory: ./packages/generator
         run: npx semantic-release
         env:
