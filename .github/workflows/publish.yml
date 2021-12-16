@@ -33,7 +33,7 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install deps
-        run: yarn install --prod
+        run: yarn install
       
       - name: Build 📦
         run: yarn build
