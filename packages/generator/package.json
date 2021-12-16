@@ -14,7 +14,6 @@
     "build": "tsc",
     "build-w": "tsc -w",
     "prepack": "yarn build",
-    "commit": "git-cz",
     "test": "jest",
     "publish-locally": "yalc push",
     "semantic-release": "semantic-release"
