@@ -73,7 +73,7 @@ generatorHandler({
       model.fields.map((field) => {
         const optionalCondition = !field.isRequired
         const fieldName = `${field.name}${optionalCondition ? '?' : ''}`
-        const fieldType = `${convertType(field.type)!}${
+        const fieldType = `${convertType(field.type as string)!}${
           field.isList ? '[]' : ''
         }`
         allFields.push({ field: fieldName, type: fieldType })
@@ -102,7 +102,7 @@ generatorHandler({
         if (isHide) return { hide: true, type: field.type }
 
         const fieldType = `${convertType(
-          field.type,
+          field.type as string,
           exportedNamePrefix,
           exportedNameSuffix,
         )!}${field.isList ? '[]' : ''}`
@@ -126,7 +126,7 @@ generatorHandler({
             dynamicImports += `, ${exported}`
           }
           const getEquivalentType = () => {
-            const convertedType = convertType(field.type)
+            const convertedType = convertType(field.type as string)
 
             if (field.isId) {
               return 'ID'
@@ -150,11 +150,11 @@ generatorHandler({
           if (field.isList) {
             return type(`[${typeGraphQLType}]`)
           } else if (field.kind === 'object' && !field.isList) {
-            return type(modifiedFieldType)
+            return type(modifiedFieldType as string)
           }
 
           if (
-            typeGraphQLType.length === 0 ||
+            (typeGraphQLType as string).length === 0 ||
             (field.kind === 'scalar' &&
               !field.isId &&
               field.type !== 'Json' &&
@@ -165,7 +165,7 @@ generatorHandler({
             return ''
           }
 
-          return type(typeGraphQLType)
+          return type(typeGraphQLType as string)
         }
 
         const optionalCondition = !field.isRequired
