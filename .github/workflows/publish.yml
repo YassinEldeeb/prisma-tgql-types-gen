@@ -34,7 +34,7 @@ jobs:
         working-directory: ./packages/generator
         run: yarn install
 
-      - name: Build 📦 & Publish 🚀
+      - name: Publish 🚀
         uses: cycjimmy/semantic-release-action@v2
         with:
           working_directory: ./packages/generator
