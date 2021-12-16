@@ -34,10 +34,12 @@ jobs:
         working-directory: ./packages/generator
         run: yarn install
 
+      - name: Debugging auth
+        run: npm whoami --registry https://registry.npmjs.org/
+
       - name: Publish 🚀
-        working-directory: ./packages/generator
         run: |
-          npm run semantic-release
+          cd ./packages/generator && npm run semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
