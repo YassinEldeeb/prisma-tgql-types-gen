@@ -423,4 +423,4 @@ generatorHandler({
   },
 })
 
-logger.info(`${GENERATOR_NAME}:Registered!`)
+logger.info(`${GENERATOR_NAME}:Registered`)
