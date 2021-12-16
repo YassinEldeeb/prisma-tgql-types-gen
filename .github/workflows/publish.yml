@@ -10,7 +10,7 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  Publish:
     runs-on: ubuntu-latest
     env:
       working-directory: ./packages/generator
