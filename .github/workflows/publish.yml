@@ -29,7 +29,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: ./packages/generator
-        run: yarn install
+        run: npm i
 
       - name: Publish 🚀
         working-directory: ./packages/generator
