@@ -2167,7 +2167,7 @@
     "escape-string-regexp" "^1.0.5"
     "supports-color" "^5.3.0"
 
-"chalk@^4.0.0", "chalk@^4.1.0", "chalk@^4.1.2", "chalk@4.1.2":
+"chalk@^4.0.0", "chalk@^4.1.0", "chalk@^4.1.1", "chalk@^4.1.2", "chalk@4.1.2":
   "integrity" "sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA=="
   "resolved" "https://registry.npmjs.org/chalk/-/chalk-4.1.2.tgz"
   "version" "4.1.2"
@@ -2389,7 +2389,7 @@
   "resolved" "https://registry.npmjs.org/commander/-/commander-2.20.3.tgz"
   "version" "2.20.3"
 
-"commitizen@^4.0.3":
+"commitizen@^4.0.3", "commitizen@^4.2.4":
   "integrity" "sha512-LlZChbDzg3Ir3O2S7jSo/cgWp5/QwylQVr59K4xayVq8S4/RdKzSyJkghAiZZHfhh5t4pxunUoyeg0ml1q/7aw=="
   "resolved" "https://registry.npmjs.org/commitizen/-/commitizen-4.2.4.tgz"
   "version" "4.2.4"
@@ -2614,20 +2614,6 @@
   dependencies:
     "cssom" "~0.3.6"
 
-"cz-conventional-changelog@^3.3.0":
-  "integrity" "sha512-U466fIzU5U22eES5lTNiNbZ+d8dfcHcssH4o7QsdWaCcRs/feIPCxKYSWkYBNs5mny7MvEfwpTLWjvbm94hecw=="
-  "resolved" "https://registry.npmjs.org/cz-conventional-changelog/-/cz-conventional-changelog-3.3.0.tgz"
-  "version" "3.3.0"
-  dependencies:
-    "chalk" "^2.4.1"
-    "commitizen" "^4.0.3"
-    "conventional-commit-types" "^3.0.0"
-    "lodash.map" "^4.5.1"
-    "longest" "^2.0.1"
-    "word-wrap" "^1.0.3"
-  optionalDependencies:
-    "@commitlint/load" ">6.1.1"
-
 "cz-conventional-changelog@3.2.0":
   "integrity" "sha512-yAYxeGpVi27hqIilG1nh4A9Bnx4J3Ov+eXy4koL3drrR+IO9GaWPsKjik20ht608Asqi8TQPf0mczhEeyAtMzg=="
   "resolved" "https://registry.npmjs.org/cz-conventional-changelog/-/cz-conventional-changelog-3.2.0.tgz"
@@ -2641,6 +2627,15 @@
     "word-wrap" "^1.0.3"
   optionalDependencies:
     "@commitlint/load" ">6.1.1"
+
+"cz-emoji-conventional@^1.0.1":
+  "integrity" "sha512-jY+jmmbQ9n671gLWSSI34a7efDz1YPfzM3QZC5T+r8CJCCo1/myW8Ik09NV9KQ5hVSc2BBfvcq7e5IsBOZjyjg=="
+  "resolved" "https://registry.npmjs.org/cz-emoji-conventional/-/cz-emoji-conventional-1.0.1.tgz"
+  "version" "1.0.1"
+  dependencies:
+    "chalk" "^4.1.1"
+    "commitizen" "^4.2.4"
+    "word-wrap" "^1.2.3"
 
 "dashdash@^1.12.0":
   "integrity" "sha1-hTz6D3y+L+1d4gMmuN1YEDX24vA="
@@ -7373,7 +7368,7 @@
   dependencies:
     "string-width" "^1.0.2 || 2"
 
-"word-wrap@^1.0.3", "word-wrap@~1.2.3":
+"word-wrap@^1.0.3", "word-wrap@^1.2.3", "word-wrap@~1.2.3":
   "integrity" "sha512-Hz/mrNwitNRh/HUAtM/VT/5VH+ygD6DV7mYKZAtHOrbs8U7lvPS6xf7EJKMF0uW1KJCl0H701g3ZGus+muE5vQ=="
   "resolved" "https://registry.npmjs.org/word-wrap/-/word-wrap-1.2.3.tgz"
   "version" "1.2.3"
