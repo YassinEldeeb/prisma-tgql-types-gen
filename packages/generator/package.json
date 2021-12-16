@@ -26,10 +26,13 @@
     "prettier": "^2.5.0"
   },
   "devDependencies": {
+    "@semantic-release/commit-analyzer": "^9.0.2",
+    "@semantic-release/git": "^10.0.1",
     "@semantic-release/npm": "^8.0.3",
+    "@semantic-release/release-notes-generator": "^10.0.3",
     "@types/node": "^16.11.11",
     "@types/prettier": "^2.4.2",
-    "jest": "^27.4.5",
+    "jest": "^27.4.3",
     "prisma": "^3.6.0",
     "semantic-release": "^18.0.1",
     "typescript": "^4.5.2"
@@ -56,6 +59,21 @@
   "release": {
     "branches": [
       "main"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/npm",
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "dist/**/*.{js,css}",
+            "package.json"
+          ],
+          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ]
     ]
   }
 }
