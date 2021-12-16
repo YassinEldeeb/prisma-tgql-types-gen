@@ -39,8 +39,13 @@ jobs:
         run: yarn build
 
       - name: Publish 🚀
-        working-directory: ./packages/generator
-        run: npx semantic-release@17.4.2
+        uses: cycjimmy/semantic-release-action@v2
+        with:
+          semantic_version: 15.13.28
+          branches: |
+            [
+              'main'
+            ]
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
