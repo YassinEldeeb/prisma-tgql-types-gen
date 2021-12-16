@@ -7,11 +7,12 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
+    branches: ['*']
 
 jobs:
   Publish:
     runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
 
     steps:
       - name: Use Node.js
@@ -34,12 +35,9 @@ jobs:
         working-directory: ./packages/generator
         run: yarn install
 
-      - name: Debugging auth
-        run: npm whoami --registry https://registry.npmjs.org/
-
       - name: Publish 🚀
-        run: |
-          cd ./packages/generator && npm run semantic-release
+        working-directory: ./packages/generator
+        run: yarn semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
