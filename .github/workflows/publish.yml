@@ -41,8 +41,8 @@ jobs:
       - name: Publish 🚀
         uses: cycjimmy/semantic-release-action@v2
         with:
-          working-directory: ./packages/generator
-          semantic_version: 15.13.28
+          working_directory: ./packages/generator
+          semantic_version: 16
           branches: |
             [
               'main'
