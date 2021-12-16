@@ -26,6 +26,7 @@
     "prettier": "^2.5.0"
   },
   "devDependencies": {
+    "@semantic-release/npm": "^8.0.3",
     "@types/node": "^16.11.11",
     "@types/prettier": "^2.4.2",
     "jest": "^27.4.3",
@@ -51,5 +52,13 @@
     "classes",
     "enums",
     "types"
+  ],
+  "branches": [
+    "main"
+  ],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/npm"
   ]
 }
