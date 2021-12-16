@@ -38,15 +38,9 @@ jobs:
         working-directory: ./packages/generator
         run: yarn build
 
-      - name: Release
+      - name: Publish 🚀
         working-directory: ./packages/generator
         run: npx semantic-release
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-
-      - name: Publish 🚀
-        working-directory: ./packages/generator
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
