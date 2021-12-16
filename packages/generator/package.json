@@ -76,7 +76,7 @@
           "assets": [
             "dist/**/*.{js,css}",
             "package.json",
-            "docs/CHANGELOG.md"
+            "../../CHANGELOG.md"
           ],
           "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
         }
