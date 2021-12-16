@@ -7,11 +7,11 @@
     "commit": "git-cz"
   },
   "devDependencies": {
-    "cz-emoji-conventional": "^1.0.1"
+    "cz-conventional-changelog": "^3.3.0"
   },
   "config": {
     "commitizen": {
-      "path": "node_modules/cz-emoji-conventional"
+      "path": "node_modules/cz-conventional-changelog"
     }
   }
 }
