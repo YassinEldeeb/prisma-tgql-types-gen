@@ -36,7 +36,7 @@ jobs:
         run: yarn install
       
       - name: Build 📦
-        run: yarn build
+        run: npx tsc
       
       - name: Publish 🚀
         run: npm publish --access public
