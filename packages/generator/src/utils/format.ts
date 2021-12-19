@@ -4,7 +4,7 @@ export const format = (content: string): Promise<string> => {
   return new Promise((res, rej) =>
     prettier.resolveConfig(process.cwd()).then((options) => {
       if (!options) {
-        return content // prettier has no config, no need to format
+        res(content) // prettier has no config, no need to format
       }
 
       try {

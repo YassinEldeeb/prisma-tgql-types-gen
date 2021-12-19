@@ -1,7 +1,7 @@
 {
   "name": "prisma-typegraphql-types-generator",
   "description": "Prisma generator for generating TypeGraphQL class types and enums, It works like a copilot where the generated output is very human readable and can be edited",
-  "version": "1.5.8",
+  "version": "1.5.7",
   "main": "dist/generator.js",
   "license": "MIT",
   "bin": {
@@ -63,21 +63,9 @@
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
-      [
-        "@semantic-release/changelog",
-        {
-          "changelogFile": "../../CHANGELOG.md"
-        }
-      ],
+      "@semantic-release/changelog",
       "@semantic-release/npm",
-      [
-        "@semantic-release/git",
-        {
-          "assets": [
-            "../../CHANGELOG.md"
-          ]
-        }
-      ]
+      "@semantic-release/git"
     ]
   }
 }
