@@ -3,7 +3,7 @@ generator client {
 }
 
 generator PrismaTypeGraphQLTypesGenerator {
-  provider                       = "node node_modules/prisma-typegraphql-types-generator"
+  provider                       = "node ../../node_modules/prisma-typegraphql-types-generator"
   modelsOutput                   = "./src/models"
   enumsOutput                    = "./src/types"
   useYarn                        = true
@@ -16,7 +16,7 @@ datasource db {
 }
 
 model User {
-  id                            String                 @id @default(cuid())
+  id                            Int                    @id @default(autoincrement())
   name                          String                 @db.VarChar(255)
   username                      String?                @unique
   // @nullable
@@ -49,11 +49,11 @@ model User {
 }
 
 model Follower {
-  id              String   @id @default(cuid())
+  id              Int      @id @default(autoincrement())
   // @skip
-  followed_userId String
+  followed_userId Int
   // @skip
-  follower_userId String
+  follower_userId Int
   followed_user   User     @relation(fields: [followed_userId], references: [id], onDelete: Cascade)
   follower_user   User     @relation(fields: [follower_userId], references: [id], name: "followerToUser", onDelete: Cascade)
   createdAt       DateTime @default(now())
@@ -61,7 +61,7 @@ model Follower {
 }
 
 model Post {
-  id             String    @id @default(cuid())
+  id             Int       @id @default(autoincrement())
   title          String
   body           String
   tags           String[]
@@ -71,7 +71,7 @@ model Post {
   hearts_count   Int       @default(0)
   comments_count Int       @default(0)
   // @skip
-  authorId       String
+  authorId       Int
   author         User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   comments       Comment[]
   readingTimeTxt String
@@ -82,10 +82,10 @@ model Post {
 }
 
 model Notification {
-  id             String                 @id @default(cuid())
+  id             Int                    @id @default(autoincrement())
   notifiedUser   User                   @relation(fields: [notifiedUserId], references: [id], onDelete: Cascade)
   // @skip
-  notifiedUserId String
+  notifiedUserId Int
   fromUsers      NotificationFromUser[]
   seen           Boolean                @default(false)
   message        String
@@ -106,41 +106,41 @@ enum NotificationType {
 }
 
 model NotificationFromUser {
-  id             String        @id @default(cuid())
+  id             Int           @id @default(autoincrement())
   user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userWhoFired   User          @relation(fields: [userWhoFiredId], references: [id], onDelete: Cascade, name: "whoFired")
   // @skip
   notification   Notification? @relation(fields: [notificationId], references: [id], onDelete: Cascade)
-  userId         String
-  userWhoFiredId String
+  userId         Int
+  userWhoFiredId Int
   // @skip
-  notificationId String?
+  notificationId Int?
 }
 
 model Heart {
-  id        String   @id @default(cuid())
+  id        Int      @id @default(autoincrement())
   user      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
   comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
   // @skip
-  authorId  String
+  authorId  Int
   // @skip
-  postId    String?
+  postId    Int?
   // @skip
-  commentId String?
+  commentId Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Comment {
-  id           String   @id @default(cuid())
+  id           Int      @id @default(autoincrement())
   text         String
   author       User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   post         Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   // @skip
-  authorId     String
+  authorId     Int
   // @skip
-  postId       String
+  postId       Int
   hearts       Heart[]
   hearts_count Int      @default(0)
   parentId     String?

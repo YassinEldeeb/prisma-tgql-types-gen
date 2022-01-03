@@ -128,7 +128,8 @@ generatorHandler({
           const getEquivalentType = () => {
             const convertedType = convertType(field.type as string)
 
-            if (field.isId) {
+            if (field.isId && field.type !== 'Int') {
+              addDynamicImports('ID')
               return 'ID'
             } else if (field.type === 'Int') {
               addDynamicImports('Int')
@@ -256,7 +257,7 @@ generatorHandler({
       // Import TypeGraphQL Stuff
       imports.push(
         IMPORT_TEMPLATE(
-          `{ Field, ID, ObjectType${dynamicImports} }`,
+          `{ Field, ObjectType${dynamicImports} }`,
           `type-graphql`,
         ),
       )

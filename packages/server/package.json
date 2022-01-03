@@ -11,7 +11,7 @@
     "apollo-server": "^3.5.0",
     "class-validator": "^0.13.1",
     "graphql": "15.3.0",
-    "prisma-typegraphql-types-generator": "file:.yalc/prisma-typegraphql-types-generator",
+    "prisma-typegraphql-types-generator": "1.5.11",
     "reflect-metadata": "^0.1.13",
     "ts-node-dev": "^1.1.8",
     "type-graphql": "^1.1.1"

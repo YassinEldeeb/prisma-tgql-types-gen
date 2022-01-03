@@ -1,12 +1,12 @@
-import { Field, ID, ObjectType } from 'type-graphql'
+import { Field, ObjectType, Int } from 'type-graphql'
 import { User } from './User'
 import { Post } from './Post'
 import { Comment } from './Comment'
 
 @ObjectType()
 export class HeartScalars {
-  @Field((_type) => ID)
-  id: string
+  @Field((_type) => Int)
+  id: number
 
   @Field()
   createdAt: Date

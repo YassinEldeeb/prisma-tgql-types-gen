@@ -2,7 +2,7 @@
   "version": "v1",
   "packages": {
     "prisma-typegraphql-types-generator": {
-      "signature": "734824b50c868fd2bb1d5cbe6184af9f",
+      "signature": "13019848c3019ada8b01ab1b1759f441",
       "file": true
     }
   }

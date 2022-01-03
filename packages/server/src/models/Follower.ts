@@ -1,10 +1,10 @@
-import { Field, ID, ObjectType } from 'type-graphql'
+import { Field, ObjectType, Int } from 'type-graphql'
 import { User } from './User'
 
 @ObjectType()
 export class FollowerScalars {
-  @Field((_type) => ID)
-  id: string
+  @Field((_type) => Int)
+  id: number
 
   @Field()
   createdAt: Date

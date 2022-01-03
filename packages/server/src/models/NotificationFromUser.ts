@@ -1,16 +1,16 @@
-import { Field, ID, ObjectType } from 'type-graphql'
+import { Field, ObjectType, Int } from 'type-graphql'
 import { User } from './User'
 
 @ObjectType()
 export class NotificationFromUserScalars {
-  @Field((_type) => ID)
-  id: string
+  @Field((_type) => Int)
+  id: number
 
-  @Field()
-  userId: string
+  @Field((_type) => Int)
+  userId: number
 
-  @Field()
-  userWhoFiredId: string
+  @Field((_type) => Int)
+  userWhoFiredId: number
 }
 
 @ObjectType()

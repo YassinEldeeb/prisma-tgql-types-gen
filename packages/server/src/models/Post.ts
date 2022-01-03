@@ -1,14 +1,12 @@
-import { Field, ID, ObjectType, Float } from 'type-graphql'
-import { User } from './User'
-
-import { Field, ID, ObjectType, Int, Float } from 'type-graphql'
+import { Field, ObjectType, Int, Float } from 'type-graphql'
 import { Heart } from './Heart'
+import { User } from './User'
 import { Comment } from './Comment'
 
 @ObjectType()
 export class PostScalars {
-  @Field((_type) => ID)
-  id: string
+  @Field((_type) => Int)
+  id: number
 
   @Field()
   title: string
