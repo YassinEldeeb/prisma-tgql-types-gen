@@ -128,14 +128,14 @@ generatorHandler({
           const getEquivalentType = () => {
             const convertedType = convertType(field.type as string)
 
-            if (field.isId) {
-              return 'ID'
-            } else if (field.type === 'Int') {
+            if (field.type === 'Int') {
               addDynamicImports('Int')
               return 'Int'
             } else if (field.type === 'Float') {
               addDynamicImports('Float')
               return 'Float'
+            } else if (field.isId) {
+              return 'ID'
             } else if (convertedType === 'Prisma.JsonValue') {
               return 'GraphQLScalars.JSONResolver'
             } else if (convertedType === 'Buffer') {
@@ -419,7 +419,7 @@ generatorHandler({
       fs.writeFileSync(writeLocation, await format(generatedEnum))
     })
 
-    logger.info(`${GENERATOR_NAME}:Generated Successfuly!`)
+    logger.info(`${GENERATOR_NAME}:Generated Successfully!`)
   },
 })
 

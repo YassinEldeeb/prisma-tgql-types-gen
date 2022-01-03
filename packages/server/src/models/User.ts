@@ -1,6 +1,5 @@
 import { Field, ID, ObjectType } from 'type-graphql'
 import { Post } from './Post'
-
 import { Field, ID, ObjectType, Int } from 'type-graphql'
 import { Comment } from './Comment'
 import { Follower } from './Follower'

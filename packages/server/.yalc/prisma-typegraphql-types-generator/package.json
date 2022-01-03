@@ -1,7 +1,7 @@
 {
   "name": "prisma-typegraphql-types-generator",
   "description": "Prisma generator for generating TypeGraphQL class types and enums, It works like a copilot where the generated output is very human readable and can be edited",
-  "version": "1.4.21",
+  "version": "1.5.10",
   "main": "dist/generator.js",
   "license": "MIT",
   "bin": {
@@ -14,17 +14,22 @@
     "build": "tsc",
     "build-w": "tsc -w",
     "prepack": "yarn build",
-    "commit": "git-cz",
-    "test": "jest"
+    "test": "jest",
+    "publish-locally": "yalc push",
+    "semantic-release": "semantic-release"
   },
   "dependencies": {
     "@prisma/client": "^3.6.0",
     "@prisma/generator-helper": "^3.6.0",
     "@prisma/sdk": "^3.6.0",
+    "@semantic-release/changelog": "^6.0.1",
     "prettier": "^2.5.0"
   },
   "homepage": "https://github.com/YassinEldeeb/Prisma-TypeGraphQL-Types-Generator",
-  "repository": "git://github.com/YassinEldeeb/Prisma-TypeGraphQL-Types-Generator.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YassinEldeeb/prisma-tgql-types-gen.git"
+  },
   "author": "Yassin Eldeeb <yassineldeeb94@gmail.com>",
   "keywords": [
     "prisma",
@@ -39,10 +44,17 @@
     "enums",
     "types"
   ],
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/git"
+    ]
   },
-  "yalcSig": "734824b50c868fd2bb1d5cbe6184af9f"
+  "yalcSig": "9a62cff12d08e8340e0bf2e83ece6a09"
 }
