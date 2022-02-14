@@ -1,7 +1,6 @@
 import 'reflect-metadata'
 import { buildSchema } from 'type-graphql'
 import path from 'path'
-import { GraphQLSchema } from 'graphql'
 import { ApolloServer } from 'apollo-server'
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 
