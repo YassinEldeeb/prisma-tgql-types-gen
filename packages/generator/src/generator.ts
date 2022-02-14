@@ -235,7 +235,8 @@ generatorHandler({
 
       const objectsFields = formattedFields
         .filter((e) => {
-          if (!e?.field || e.kind === 'scalar') return false
+          if (!e?.field || e.kind === 'scalar' || e.kind === 'enum')
+            return false
           else return true
         })
         .map((e) => e.field)
