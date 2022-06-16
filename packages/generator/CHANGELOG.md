@@ -1,3 +1,10 @@
+## [1.5.13](https://github.com/YassinEldeeb/prisma-tgql-types-gen/compare/v1.5.12...v1.5.13) (2022-06-16)
+
+
+### Bug Fixes
+
+* sync previous version with npm ([2aacdf9](https://github.com/YassinEldeeb/prisma-tgql-types-gen/commit/2aacdf91229c4535321bce1736d481299f19108f))
+
 ## [1.5.12](https://github.com/YassinEldeeb/prisma-tgql-types-gen/compare/v1.5.11...v1.5.12) (2022-06-16)
 
 
