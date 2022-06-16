@@ -1,5 +1,5 @@
 import { generatorHandler, GeneratorOptions } from '@prisma/generator-helper'
-import { logger } from '@prisma/sdk'
+import { logger } from './utils/logger'
 import fs from 'fs'
 import path from 'path'
 import { GENERATOR_NAME } from './constants'

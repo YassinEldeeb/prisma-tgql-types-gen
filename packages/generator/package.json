@@ -20,14 +20,14 @@
   },
   "dependencies": {
     "@prisma/generator-helper": "^3.8.0",
-    "@prisma/sdk": "^3.8.0"
+    "chalk": "^5.0.1"
   },
   "peerDependencies": {
     "prettier": "^2"
   },
   "devDependencies": {
-    "@semantic-release/commit-analyzer": "^9.0.2",
     "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/commit-analyzer": "^9.0.2",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/npm": "^9.0.0",
     "@semantic-release/release-notes-generator": "^10.0.3",
