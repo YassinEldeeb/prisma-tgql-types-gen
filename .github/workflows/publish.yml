@@ -28,6 +28,11 @@ jobs:
         with:
           version: 6.23.6
 
+      - name: Simulate dist
+        run: |
+          mkdir ./packages/generator/dist
+          touch ./packages/generator/dist/bin.js
+
       - name: Install dependencies
         run: pnpm i
 
