@@ -1,5 +1,4 @@
 import { Field, ObjectType, Int } from 'type-graphql'
-
 import GraphQLScalars from 'graphql-scalars'
 
 @ObjectType()
