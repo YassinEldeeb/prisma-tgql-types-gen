@@ -1,10 +1,8 @@
 {
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "preinstall": "npx only-allow pnpm"
   },
   "devDependencies": {
     "cz-conventional-changelog": "^3.3.0"

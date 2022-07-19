@@ -11,7 +11,7 @@
     "class-validator": "^0.13.1",
     "graphql": "15.3.0",
     "graphql-scalars": "^1.17.0",
-    "prisma-typegraphql-types-generator": "1.5.13",
+    "prisma-typegraphql-types-generator": "workspace:*",
     "reflect-metadata": "^0.1.13",
     "ts-node-dev": "^1.1.8",
     "type-graphql": "^1.1.1"
