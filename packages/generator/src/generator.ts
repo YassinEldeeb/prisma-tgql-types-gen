@@ -20,7 +20,6 @@ import { replaceAll } from './utils/replaceAll'
 import { restoreClassChanges } from './utils/restoreClassChanges'
 import { restoreImportsChanges } from './utils/restoreImportsSection'
 import { restoreDecoratorObjects } from './utils/restoreDecoratorObjects'
-import prettier from 'prettier'
 import { format } from './utils/format'
 
 const defaultModelsOutput = path.join(process.cwd(), './src/generated/models')
@@ -42,11 +41,13 @@ const installPackage = (useYarn: string, pkgName: string) => {
   })
 }
 
+const { version } = require('../package.json')
+
 generatorHandler({
   onManifest: () => ({
     defaultOutput: '../src/generated/models',
     prettyName: GENERATOR_NAME,
-    requiresGenerators: ['prisma-client-js'],
+    version,
   }),
   onGenerate: async (options: GeneratorOptions) => {
     const extractedData = ExtractFieldsModifications(options.datamodel)
@@ -159,6 +160,7 @@ generatorHandler({
             (field.kind === 'scalar' &&
               !field.isId &&
               field.type !== 'Json' &&
+              field.type !== 'Bytes' &&
               !dynamicImports
                 .split(',')
                 .find((e) => e.trim() === typeGraphQLType))

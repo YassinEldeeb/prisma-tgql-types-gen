@@ -35,8 +35,5 @@ export class Notification extends NotificationScalars {
   @Field((_type) => [NotificationFromUser])
   fromUsers: NotificationFromUser[]
 
-  @Field((_type) => NotificationType)
-  type: NotificationType
-
   // skip overwrite 👇
 }

@@ -3,7 +3,7 @@ generator client {
 }
 
 generator PrismaTypeGraphQLTypesGenerator {
-  provider                       = "node ../../node_modules/prisma-typegraphql-types-generator"
+  provider                       = "npx prisma-typegraphql-types-generator"
   modelsOutput                   = "./src/models"
   enumsOutput                    = "./src/types"
   useYarn                        = true
@@ -15,135 +15,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id                            Int                    @id @default(autoincrement())
-  name                          String                 @db.VarChar(255)
-  username                      String?                @unique
-  // @nullable
-  email                         String                 @unique
-  // @skip
-  password                      String?
-  bio                           String?                @db.VarChar(160)
-  // @skip
-  tokenVersion                  Int                    @default(0)
-  // @skip
-  confirmed                     Boolean                @default(false)
-  profilePic                    String?
-  posts                         Post[]
-  comments                      Comment[]
-  // @skip
-  hearts                        Heart[]
-  followers_count               Int                    @default(0)
-  following_count               Int                    @default(0)
-  followers                     Follower[]
-  following                     Follower[]             @relation("followerToUser")
-  notifications                 Notification[]
-  // @skip
-  notificationsFromUser         NotificationFromUser[]
-  // @skip
-  notificationsFromUserWhoFired NotificationFromUser[] @relation("whoFired")
-  githubId                      String?                @unique
-  lastTimelineVisit             DateTime?
-  createdAt                     DateTime               @default(now())
-  updatedAt                     DateTime               @updatedAt
-}
-
-model Follower {
-  id              Int      @id @default(autoincrement())
-  // @skip
-  followed_userId Int
-  // @skip
-  follower_userId Int
-  followed_user   User     @relation(fields: [followed_userId], references: [id], onDelete: Cascade)
-  follower_user   User     @relation(fields: [follower_userId], references: [id], name: "followerToUser", onDelete: Cascade)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-}
-
-model Post {
-  id             Int       @id @default(autoincrement())
-  title          String
-  body           String
-  tags           String[]
-  test           Int[]
-  published      Boolean   @default(false)
-  hearts         Heart[]
-  hearts_count   Int       @default(0)
-  comments_count Int       @default(0)
-  // @skip
-  authorId       Int
-  author         User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  comments       Comment[]
-  readingTimeTxt String
-  readingTimeMin Float
-  coverImg       String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-}
-
-model Notification {
-  id             Int                    @id @default(autoincrement())
-  notifiedUser   User                   @relation(fields: [notifiedUserId], references: [id], onDelete: Cascade)
-  // @skip
-  notifiedUserId Int
-  fromUsers      NotificationFromUser[]
-  seen           Boolean                @default(false)
-  message        String
-  type           NotificationType
-  url            String
-  createdAt      DateTime               @default(now())
-  updatedAt      DateTime               @updatedAt
-}
-
-enum NotificationType {
-  newPosts
-  newComments
-  newFollowers
-  reply
-  heartOnPost
-  heartOnComment
-  heartOnReply
-}
-
-model NotificationFromUser {
-  id             Int           @id @default(autoincrement())
-  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userWhoFired   User          @relation(fields: [userWhoFiredId], references: [id], onDelete: Cascade, name: "whoFired")
-  // @skip
-  notification   Notification? @relation(fields: [notificationId], references: [id], onDelete: Cascade)
-  userId         Int
-  userWhoFiredId Int
-  // @skip
-  notificationId Int?
-}
-
-model Heart {
-  id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
-  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  // @skip
-  authorId  Int
-  // @skip
-  postId    Int?
-  // @skip
-  commentId Int?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Comment {
-  id           Int      @id @default(autoincrement())
-  text         String
-  author       User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  post         Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  // @skip
-  authorId     Int
-  // @skip
-  postId       Int
-  hearts       Heart[]
-  hearts_count Int      @default(0)
-  parentId     String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+model Test {
+  id  Int   @id @default(autoincrement())
+  bla Bytes
 }
