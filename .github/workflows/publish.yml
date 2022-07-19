@@ -24,7 +24,6 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install dependencies
-        working-directory: ./packages/generator
         run: yarn install
 
       - name: Publish 🚀
