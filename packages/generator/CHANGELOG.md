@@ -1,3 +1,12 @@
+## [1.5.14](https://github.com/YassinEldeeb/prisma-tgql-types-gen/compare/v1.5.13...v1.5.14) (2022-07-19)
+
+
+### Bug Fixes
+
+* **ci:** install deps in the root ([cb32335](https://github.com/YassinEldeeb/prisma-tgql-types-gen/commit/cb32335f4dca42e12e14095149d72b59f919768d))
+* migrate to prisma4 ([1f8345a](https://github.com/YassinEldeeb/prisma-tgql-types-gen/commit/1f8345aa521141b4482c1a01465dc9771b5ff5a5))
+* simulate dist ([4d964ad](https://github.com/YassinEldeeb/prisma-tgql-types-gen/commit/4d964ad6be79079b07092fa1b3eeb87ed357c4a7))
+
 ## [1.5.13](https://github.com/YassinEldeeb/prisma-tgql-types-gen/compare/v1.5.12...v1.5.13) (2022-06-16)
 
 
