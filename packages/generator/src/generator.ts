@@ -21,6 +21,7 @@ import { restoreClassChanges } from './utils/restoreClassChanges'
 import { restoreImportsChanges } from './utils/restoreImportsSection'
 import { restoreDecoratorObjects } from './utils/restoreDecoratorObjects'
 import { format } from './utils/format'
+import { toPascalCase } from './utils/toPascalCase'
 
 const defaultModelsOutput = path.join(process.cwd(), './src/generated/models')
 const defaultEnumsOutput = path.join(process.cwd(), './src/generated/enums')
@@ -55,6 +56,8 @@ generatorHandler({
     const splitScalars =
       !!options.generator.config.splitScalarAndObjectTypeFields
 
+    const pascalCaseModelNames = !!options.generator.config.pascalCaseModelNames
+
     const exportedNameSuffix = options.generator.config.exportedNameSuffix || ''
     const exportedNamePrefix = options.generator.config.exportedNamePrefix || ''
 
@@ -80,7 +83,11 @@ generatorHandler({
         allFields.push({ field: fieldName, type: fieldType })
       })
 
-      const modelName = `${exportedNamePrefix}${model.name}${exportedNameSuffix}`
+      let modelName = `${exportedNamePrefix}${model.name}${exportedNameSuffix}`
+
+      if (pascalCaseModelNames) {
+        modelName = toPascalCase(modelName)
+      }
 
       const decoratorObjects = restoreDecoratorObjects(
         writeLocation,

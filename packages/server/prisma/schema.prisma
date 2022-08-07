@@ -8,6 +8,7 @@ generator PrismaTypeGraphQLTypesGenerator {
   enumsOutput                    = "./src/types"
   useYarn                        = true
   splitScalarAndObjectTypeFields = true
+  pascalCaseModelNames           = true
 }
 
 datasource db {
@@ -15,7 +16,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Test {
+model very_ugly_name {
   id  Int   @id @default(autoincrement())
   bla Bytes
 }
