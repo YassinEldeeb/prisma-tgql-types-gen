@@ -19,7 +19,7 @@
     "semantic-release": "semantic-release"
   },
   "dependencies": {
-    "@prisma/generator-helper": "4.0.0",
+    "@prisma/generator-helper": "4.2.0",
     "chalk": "4.1.2",
     "prettier": "^2"
   },
